@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="es-CR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arquitectura en draw.io</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --papel:#FFFFFF; --hoja:#FFFFFF; --tinta:#16223C; --tinta2:#55637D; --linea:#D3DAE6; --linea2:#E6EAF2;
+  --plano:#2F5DA8; --plano-sv:#E8EEF9; --sobre-plano:#FFFFFF; --cuadri:rgba(47,93,168,.07);
+  --oro:#9A6A0C; --oro-sv:#FBF3DF; --verde:#1B6B47; --verde-sv:#E6F3EC; --rojo:#A8352B; --rojo-sv:#FAEBE9;
+  --sombra:0 1px 0 rgba(22,34,60,.05), 0 12px 32px -22px rgba(22,34,60,.5);
+  box-sizing:border-box; color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--papel);color:var(--tinta);font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:17px;line-height:1.62;overflow-wrap:break-word;-webkit-tap-highlight-color:rgba(47,93,168,.15)}
+h1,h2,h3,h4{font-family:"Archivo","Arial Narrow",Helvetica,Arial,sans-serif;line-height:1.14;letter-spacing:-.012em;margin:0}
+p{margin:0 0 14px}
+a{color:var(--plano)}
+b,strong{font-weight:600}
+:focus-visible{outline:3px solid var(--oro);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+img,svg{max-width:100%}
+
+/* ---- barra superior ---- */
+.barra{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--papel);border-bottom:1px solid var(--linea);}
+.barra .in{max-width:900px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:14px}
+.barra .t{font-family:"Archivo",sans-serif;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.barra a.ind{font-weight:600;font-size:14px;text-decoration:none;color:var(--tinta);border:1px solid var(--linea);border-radius:999px;padding:6px 14px;background:var(--hoja)}
+.avance{height:3px;background:var(--linea2)}
+.avance i{display:block;height:3px;width:0;background:var(--plano);transition:width .15s}
+
+/* ---- estructura ---- */
+.col{max-width:760px;margin:0 auto;padding:0 20px}
+.ancho{max-width:900px;margin:0 auto;padding:0 20px}
+section.tema{padding:56px 0 20px;border-top:1px solid var(--linea)}
+.parte{padding:72px 0 24px}
+.parte .anio{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(44px,9vw,76px);letter-spacing:-.03em;line-height:1}
+.parte p{color:var(--tinta2);font-size:18px;max-width:60ch;margin-top:14px}
+.tag{display:inline-block;font-size:13.5px;font-weight:600;color:var(--oro);background:var(--oro-sv);padding:4px 11px;border-radius:999px;margin-bottom:14px}
+h2.tt{font-size:clamp(28px,5.2vw,40px);margin-bottom:18px}
+h2.tt small{display:block;font-family:"IBM Plex Sans",sans-serif;font-weight:500;font-size:15px;color:var(--tinta2);letter-spacing:0;margin-bottom:6px}
+h3{font-size:22px;margin:34px 0 12px}
+h4{font-size:18px;margin:22px 0 8px}
+.idea{font-size:21px;line-height:1.5;font-weight:500;margin:0 0 20px;padding-left:18px;border-left:4px solid var(--tinta)}
+ul.l,ol.l{margin:0 0 16px;padding-left:22px}
+ul.l li,ol.l li{margin-bottom:8px}
+
+/* ---- bloques recurrentes ---- */
+.bloque{border-radius:12px;padding:18px 20px;margin:20px 0}
+.bloque > :last-child{margin-bottom:0}
+.bloque .cab{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px;margin-bottom:8px;display:block}
+.soda{background:var(--plano-sv);border-left:5px solid var(--plano)}
+.soda .cab{color:var(--plano)}
+.ojo{background:var(--rojo-sv);border-left:5px solid var(--rojo)}
+.ojo .cab{color:var(--rojo)}
+.prueba{background:var(--oro-sv);border-left:5px solid var(--oro)}
+.prueba .cab{color:var(--oro)}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--linea);border-radius:12px;overflow:hidden;margin:22px 0;background:var(--hoja)}
+.dos > div{padding:16px 18px}
+.dos > div + div{border-left:1px solid var(--linea)}
+.dos .cab{font-family:"Archivo",sans-serif;font-weight:700;font-size:15px;display:block;margin-bottom:6px}
+.dos .inet .cab{color:var(--tinta2)}
+.dos .mep .cab{color:var(--oro)}
+.dos p{margin:0 0 8px;font-size:16px}
+@media (max-width:600px){.dos{grid-template-columns:1fr}.dos > div + div{border-left:0;border-top:1px solid var(--linea)}}
+
+/* ---- tablas ---- */
+.tabla{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:18px 0 22px;border:1px solid var(--linea);border-radius:12px;background:var(--hoja)}
+table{border-collapse:collapse;width:100%;font-size:15.5px;min-width:520px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--linea2);vertical-align:top}
+th{font-family:"Archivo",sans-serif;font-weight:600;font-size:14px;color:var(--tinta2);background:var(--papel)}
+tr:last-child td{border-bottom:0}
+
+/* ---- figuras (planos) ---- */
+figure{margin:24px 0;background:var(--hoja);border:1px solid var(--linea);border-radius:14px;overflow:hidden;box-shadow:var(--sombra)}
+figure .lienzo{padding:20px;background-image:linear-gradient(var(--cuadri) 1px,transparent 1px),linear-gradient(90deg,var(--cuadri) 1px,transparent 1px);background-size:22px 22px;overflow-x:auto}
+figcaption{padding:12px 18px;font-size:14.5px;color:var(--tinta2);border-top:1px solid var(--linea2)}
+figure svg{display:block;margin:0 auto;height:auto}
+svg text{font-family:"IBM Plex Sans",Helvetica,Arial,sans-serif;fill:var(--tinta)}
+.trazo{stroke:var(--plano);fill:none;stroke-width:2.2}
+.relleno{fill:var(--hoja);stroke:var(--plano);stroke-width:2.2}
+.lleno{fill:var(--plano);stroke:var(--plano)}
+
+/* ---- controles de las demostraciones ---- */
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;padding:14px 18px;border-top:1px solid var(--linea2);align-items:center}
+.btn{font:inherit;font-weight:600;font-size:15px;min-height:44px;padding:9px 16px;border-radius:10px;border:1.5px solid var(--tinta);background:var(--tinta);color:var(--papel);cursor:pointer;touch-action:manipulation}
+.btn.sec{background:transparent;color:var(--tinta);border-color:var(--linea)}
+.btn.sec[aria-pressed="true"]{border-color:var(--plano);background:var(--plano-sv);color:var(--plano)}
+.btn:disabled{opacity:.4;cursor:default}
+input[type=range]{width:100%;accent-color:var(--plano);min-height:36px}
+.estado{font-size:15px;color:var(--tinta2);flex:1;min-width:200px}
+
+/* ---- chequeos ---- */
+.chk{background:var(--hoja);border:1px solid var(--linea);border-radius:14px;padding:18px 20px;margin:22px 0}
+.chk .cab{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px;color:var(--verde);display:block;margin-bottom:6px}
+.chk .q{font-weight:600;margin-bottom:12px}
+.chk .ops{display:grid;gap:8px}
+.chk button.op{font:inherit;font-size:15.5px;text-align:left;padding:12px 14px;border-radius:10px;border:1.5px solid var(--linea);background:var(--papel);color:var(--tinta);cursor:pointer;min-height:48px;touch-action:manipulation}
+.chk button.op:disabled{cursor:default}
+.chk button.op.bien{border-color:var(--verde);background:var(--verde-sv)}
+.chk button.op.mal{border-color:var(--rojo);background:var(--rojo-sv)}
+.chk .x{display:block;font-size:14.5px;color:var(--tinta2);margin-top:6px;font-weight:400}
+.chk button.op.bien .x,.chk button.op.mal .x{color:var(--tinta)}
+
+/* ---- índice ---- */
+.indice{background:var(--hoja);border:1px solid var(--linea);border-radius:14px;padding:6px 20px;margin:28px 0}
+.indice h3{margin:18px 0 6px;font-size:17px;color:var(--tinta2)}
+.indice ol{margin:0 0 12px;padding-left:22px}
+.indice li{margin:5px 0}
+.indice a{text-decoration:none;color:var(--tinta)}
+.indice a:hover{color:var(--plano);text-decoration:underline}
+.indice .v{color:var(--tinta2);font-size:14px}
+
+/* ---- portada ---- */
+.portada{padding:44px 0 10px}
+.portada h1{font-size:clamp(40px,9vw,72px);font-weight:800;letter-spacing:-.035em;line-height:.98;margin-bottom:18px}
+.portada .sub{font-size:19px;color:var(--tinta2);max-width:56ch}
+.firma{font-size:14.5px;color:var(--tinta2);margin-top:18px}
+.volver{display:inline-block;margin:10px 0 0;font-size:14.5px;font-weight:600;text-decoration:none}
+footer{padding:48px 0 64px;color:var(--tinta2);font-size:14px;border-top:1px solid var(--linea);margin-top:40px}
+
+/* ---- piezas de demostraciones específicas ---- */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:15px;padding:9px 14px;border-radius:999px;border:1.5px solid var(--linea);background:var(--hoja);color:var(--tinta);cursor:pointer;min-height:42px;touch-action:manipulation}
+.chip.puesto{border-color:var(--plano);background:var(--plano-sv);color:var(--plano);font-weight:600}
+.chip.bien{border-color:var(--verde);background:var(--verde-sv);color:var(--verde);font-weight:600}
+.chip.mal{border-color:var(--rojo);background:var(--rojo-sv);color:var(--rojo)}
+.tablero{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tablero .colu{background:var(--papel);border:1px solid var(--linea);border-radius:10px;padding:10px;min-height:190px}
+.tablero .colu h4{margin:0 0 8px;font-size:14px;color:var(--tinta2)}
+.tarjeta{background:var(--hoja);border:1px solid var(--linea);border-left:4px solid var(--plano);border-radius:8px;padding:7px 9px;font-size:13.5px;margin-bottom:7px;line-height:1.35}
+.tarjeta.hecha{border-left-color:var(--verde);opacity:.85}
+.pasos{display:grid;gap:10px}
+.paso{display:flex;gap:14px;align-items:flex-start;padding:12px 14px;border:1px solid var(--linea);border-radius:10px;background:var(--hoja);transition:border-color .15s, background .15s}
+.paso .n{font-family:"Archivo",sans-serif;font-weight:800;font-size:20px;color:var(--plano);min-width:22px}
+.paso.activo{border-color:var(--plano);background:var(--plano-sv)}
+.caja{border:2px solid var(--plano);border-radius:10px;padding:12px 14px;background:var(--hoja);transition:background .2s, box-shadow .2s}
+.caja.luz{background:var(--plano-sv);box-shadow:0 0 0 4px rgba(47,93,168,.18)}
+.caja b{display:block;font-family:"Archivo",sans-serif;font-size:17px;color:var(--plano)}
+h3[id^="m-"]{padding-top:10px;border-top:1px dashed var(--linea);margin-top:40px}
+.telefono{width:250px;max-width:100%;border:2px solid var(--tinta2);border-radius:22px;padding:14px 12px 18px;background:var(--hoja);margin:0 auto;font-size:14px}
+.telefono .barrita{height:5px;width:60px;border-radius:5px;background:var(--linea);margin:0 auto 12px}
+.mini{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.mini > div{flex:1;min-width:230px;max-width:280px}
+.mini .rot{font-weight:700;font-family:"Archivo",sans-serif;text-align:center;margin-bottom:8px;font-size:15px}
+.ui-btn{display:inline-block;background:var(--plano);color:var(--sobre-plano);border-radius:8px;padding:6px 12px;font-size:13px;font-weight:600}
+.ui-btn.gris{background:var(--linea);color:var(--tinta)}
+.ui-campo{border:1px solid var(--linea);border-radius:6px;padding:6px 8px;margin:6px 0;color:var(--tinta2);font-size:13px;background:var(--papel)}
+.muestra{border:1px solid var(--linea);border-radius:10px;padding:14px 16px;background:var(--hoja);margin-bottom:10px}
+.muestra .nom{font-size:13px;color:var(--tinta2);margin-bottom:4px;font-family:"IBM Plex Sans",sans-serif;font-style:normal;font-weight:500}
+.swatches{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.sw{width:42px;height:42px;border-radius:10px;border:2px solid var(--linea);cursor:pointer;touch-action:manipulation}
+.sw[aria-pressed="true"]{border-color:var(--tinta);box-shadow:0 0 0 3px var(--plano-sv)}
+.marco{border:2px dashed var(--plano);border-radius:10px;margin:0 auto;overflow:auto;background:var(--hoja);transition:width .1s}
+.sitio{font-size:13px;min-width:0}
+.sitio .enc{background:var(--plano);color:var(--sobre-plano);padding:8px 10px;font-weight:700}
+.sitio .cuerpo{display:flex;gap:8px;padding:8px}
+.sitio .prod{flex:1;border:1px solid var(--linea);border-radius:6px;padding:8px;min-width:0;background:var(--papel)}
+.sitio.estrecho .cuerpo{flex-direction:column}
+.sitio.fijo{width:760px}
+.lado{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:600px){.lado{grid-template-columns:1fr}}
+.pix{image-rendering:pixelated;image-rendering:crisp-edges;display:block;margin:0 auto;border:1px solid var(--linea);background:var(--hoja)}
+.vista-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.hint{display:none;font-size:13.5px;color:var(--plano);font-weight:600;padding:8px 18px 0}
+figure.desliza .hint{display:block}
+@media (max-width:680px){
+  figure .lienzo > svg[width="700"], figure .lienzo > svg[width="720"]{min-width:620px}
+  figure .lienzo > svg[width="860"]{min-width:720px}
+}
+@media (max-width:560px){
+  body{font-size:16.5px}
+  .col,.ancho{padding:0 16px}
+  .idea{font-size:19px}
+  .tablero{grid-template-columns:1fr}
+  .tablero .colu{min-height:0}
+  figure .lienzo{padding:14px}
+}
+.idea{font-size:20px}
+ul.l li{margin-bottom:6px}
+section.tema{padding:48px 0 16px}
+.corto{color:var(--tinta2);font-size:15.5px;margin-top:-6px}
+
+/* versiones por tamaño */
+.solo-mov{display:none}
+@media (max-width:680px){ .solo-pc{display:none!important} .solo-mov{display:block} }
+/* flujos verticales */
+.flujo{display:grid;gap:0;max-width:420px;margin:0 auto}
+.flujo .f{border:2px solid var(--plano);border-radius:12px;padding:11px 15px;background:var(--hoja);font-size:15px;line-height:1.4}
+.flujo .f b{display:block;color:var(--plano);font-family:"Archivo",sans-serif;font-size:16.5px}
+.flujo .f.lleno{background:var(--plano);color:var(--sobre-plano)}
+.flujo .f.lleno b{color:var(--sobre-plano)}
+.flujo .fl{text-align:center;color:var(--plano);font-size:22px;line-height:1;padding:5px 0;font-weight:700}
+.flujo .vuelta{font-size:14px;color:var(--tinta2);text-align:center;margin-top:10px}
+/* escaleras */
+.escalera{display:grid;gap:8px}
+.escalera .bar{border:2px solid var(--plano);border-radius:10px;background:var(--plano-sv);padding:9px 12px;font-size:14.5px;line-height:1.3}
+.escalera .bar b{display:block;font-family:"Archivo",sans-serif;font-size:16px;color:var(--plano)}
+.escalera .bar.lleno{background:var(--plano);color:var(--sobre-plano)}
+.escalera .bar.lleno b{color:var(--sobre-plano)}
+.chips span.chip{cursor:default}
+/* tablas sin ancho mínimo en celular */
+@media (max-width:680px){ table{min-width:0;font-size:14.5px} th,td{padding:9px 10px} }
+/* barra lateral en computadora */
+@media (min-width:1200px){
+  .col,.ancho{margin-left:calc(300px + (100vw - 300px - 760px) / 2);margin-right:auto}
+  nav.indice{position:fixed;left:24px;top:calc(env(safe-area-inset-top,0px) + 74px);width:250px;max-height:calc(100vh - 96px);overflow-y:auto;margin:0;padding:4px 16px 10px;font-size:14.5px;z-index:10}
+  nav.indice h3{font-size:14.5px;margin:14px 0 4px}
+  nav.indice li{margin:3px 0}
+  nav.indice a.actual{color:var(--plano);font-weight:700}
+  .barra a.ind{display:none}
+  .barra .in{max-width:none;padding-left:24px}
+}
+
+@media (max-width:560px){
+  .tabla table.apila, .tabla table.apila tbody, .tabla table.apila tr, .tabla table.apila td{display:block;width:100%}
+  .tabla table.apila tr:first-child{display:none}
+  .tabla table.apila tr{border-bottom:1px solid var(--linea2);padding:12px 14px}
+  .tabla table.apila tr:last-child{border-bottom:0}
+  .tabla table.apila td{border:0;padding:2px 0}
+  .tabla table.apila td:first-child{font-size:16px;margin-bottom:4px}
+  .tabla table.apila td[data-label]::before{content:attr(data-label) ": ";color:var(--tinta2);font-size:13.5px;font-weight:600}
+}
+
+button.tarjeta{font:inherit;font-size:13.5px;display:block;width:100%;text-align:left;cursor:pointer;color:var(--tinta);touch-action:manipulation}
+button.tarjeta.hecha{cursor:default}
+.em{font:inherit;font-size:15px;min-height:52px;padding:6px 10px;border-radius:10px;border:1.5px solid var(--linea);background:var(--hoja);color:var(--tinta);cursor:pointer;touch-action:manipulation;display:flex;align-items:center;justify-content:center}
+.em.sel{border-color:var(--plano);background:var(--plano-sv)}
+.em.bien{border-color:var(--verde);background:var(--verde-sv);color:var(--verde);font-weight:600}
+.em.mal{border-color:var(--rojo);background:var(--rojo-sv)}
+
+.uni{font-family:"Archivo",sans-serif;font-weight:700;font-size:15.5px;color:var(--oro);margin:48px 0 -20px;padding-top:14px;border-top:3px solid var(--oro)}
+.phx{line-height:1.4}
+
+@media (max-width:560px){
+  #hc th, #hc td{padding:7px 5px;font-size:13.5px}
+  #hc th:first-child{width:18px}
+  #cqT th, #cqT td{padding:7px 6px;font-size:13.5px}
+}
+</style>
+</head>
+<body>
+<div class="barra"><div class="in"><span class="t" id="barraTit">Arquitectura en draw.io</span><a class="ind" href="#indice">Índice</a></div><div class="avance"><i id="avance"></i></div></div>
+<header class="col portada" id="inicio"><h1>Arquitectura en draw.io</h1><p class="sub">Práctica 4 de la Clase 12. Vas a dibujar la arquitectura de dos sistemas web con un programa gratis y la vas a publicar en tu GitHub, paso a paso.</p><p class="firma">Creado por Jefernee.</p></header>
+<div class="col"><div class="bloque soda"><span class="cab">El ejemplo de toda la guía</span><p><b>SodaYa</b>, la app de pedidos de la soda del colegio. Primero dibujás con tu pareja el sistema de notas que ya conocés de la presentación, para aprender la herramienta; después diseñás sin ayuda la arquitectura de SodaYa.</p></div>
+<nav class="indice" id="indice" aria-label="Índice"><h3>Antes de dibujar</h3><ol start="1"><li><a href="#plan">Lo que vas a hacer hoy</a></li><li><a href="#piezas">Las piezas de un diagrama</a></li><li><a href="#flechas">Las reglas de las flechas</a></li></ol><h3>Manos a la obra</h3><ol start="4"><li><a href="#drawio">Conocé draw.io</a></li><li><a href="#movimientos">Los siete movimientos</a></li><li><a href="#ejemplo">Paso a paso: el sistema de notas</a></li><li><a href="#sodaya">Ahora vos: SodaYa</a></li></ol><h3>Entregar</h3><ol start="8"><li><a href="#github">Guardar y subir a GitHub</a></li><li><a href="#entrega">Lista de entrega</a></li></ol></nav>
+</div><div class="col parte" id="parte-antes-de-dibujar"><div class="anio">Antes de dibujar</div><p>Qué vas a hacer hoy, las piezas de un diagrama y las reglas de sus flechas.</p></div><div class="col"><section class="tema" id="plan"><h2 class="tt"><small>1</small>Lo que vas a hacer hoy</h2><style>
+:root{--c-int:#DCE8FA;--c-int-b:#4F74B8;--c-log:#DDF0DA;--c-log-b:#4E8A45;--c-dat:#FBF0CC;--c-dat-b:#B58A1E;--c-srv:#EEF1F6;--c-srv-b:#6E7A90}
+.p-int{fill:var(--c-int);stroke:var(--c-int-b);stroke-width:2}
+.p-log{fill:var(--c-log);stroke:var(--c-log-b);stroke-width:2}
+.p-dat{fill:var(--c-dat);stroke:var(--c-dat-b);stroke-width:2}
+.p-srv{fill:var(--c-srv);stroke:var(--c-srv-b);stroke-width:2}
+.p-act{fill:none;stroke:var(--tinta);stroke-width:2.2;stroke-linecap:round}
+.p-act circle{fill:var(--hoja)}
+.btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.acciones{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 22px}
+.tecla{font-family:ui-monospace,Consolas,"Courier New",monospace;font-size:.86em;border:1px solid var(--linea);border-bottom-width:2px;border-radius:5px;padding:1px 6px;background:var(--hoja);white-space:nowrap;color:var(--tinta)}
+.ruta{font-weight:600;color:var(--plano)}
+.on rect,.on path,.on circle{stroke-width:3.6}
+.psg{transition:opacity .25s}
+.zona{cursor:pointer}
+.zona:hover{opacity:.85}
+.dz-info{margin-top:14px;padding:12px 14px;border:1px solid var(--linea);border-radius:10px;background:var(--hoja);min-height:96px}
+.dz-info .tit{display:block;font-family:"Archivo",sans-serif;font-size:17px;color:var(--plano);margin-bottom:4px}
+.dz-info p{margin:0;font-size:15.5px}
+.pista-lista{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.pista-lista li{border:1px solid var(--linea);border-left:4px solid var(--oro);border-radius:10px;padding:12px 14px;background:var(--hoja);font-size:15.5px}
+.pista-lista li b{color:var(--oro)}
+.codigo{border:1px solid var(--linea);border-radius:12px;overflow:hidden;margin:16px 0 22px;background:var(--hoja)}
+.codigo pre{margin:0;padding:14px 16px;overflow-x:auto;font-family:ui-monospace,Consolas,"Courier New",monospace;font-size:14px;line-height:1.55;color:var(--tinta);background:var(--papel);white-space:pre}
+.codigo .ctrl{border-top:1px solid var(--linea2)}
+.orden-fila{display:flex;flex-wrap:wrap;gap:8px;min-height:56px;padding:10px;border:1.5px dashed var(--linea);border-radius:10px;margin:10px 0;align-items:center}
+.orden-fila .vacio{color:var(--tinta2);font-size:14.5px}
+.chip .num{font-weight:700;margin-right:6px}
+.lista-chk{display:grid;gap:8px;margin:0 0 6px}
+.lista-chk .grupo{font-family:"Archivo",sans-serif;font-weight:700;font-size:15px;color:var(--tinta2);margin:12px 0 2px}
+.lista-chk label{display:flex;gap:12px;align-items:flex-start;padding:11px 14px;border:1px solid var(--linea);border-radius:10px;background:var(--hoja);min-height:48px;cursor:pointer;font-size:15.5px;line-height:1.4}
+.lista-chk input{width:22px;height:22px;accent-color:var(--verde);flex:none;margin:0}
+.lista-chk label.hecho{border-color:var(--verde);background:var(--verde-sv)}
+.avance-chk{height:10px;border-radius:99px;background:var(--linea2);overflow:hidden;margin:6px 0 2px}
+.avance-chk i{display:block;height:10px;width:0;background:var(--verde);transition:width .2s}
+.fl-pregunta{font-weight:600;margin:12px 0 0;font-size:16px}
+</style><p class="idea">Hoy vas a dibujar la <b>arquitectura de un sistema web</b>: el plano que muestra qué partes tiene, cómo se comunican y en qué servidor vive cada una. Lo vas a hacer en la compu, con un programa gratis, y al final lo vas a subir a tu GitHub.</p><h4>¿Por qué se dibuja?</h4><p>La arquitectura es como el plano de una casa: nadie levanta paredes sin saber antes dónde va cada cuarto. En software pasa igual. El dibujo deja claro qué le toca a cada parte <b>antes</b> de escribir código, y todo el equipo trabaja sobre el mismo plano.</p><p class="corto"><b style="color:var(--plano)">En el ejemplo:</b> en el sistema de notas, el plano deja escrito que la pantalla nunca toca la base de datos directo.</p><figure><div class="lienzo"><div id="csCaja"></div></div><div class="ctrl"><button class="btn sec" id="csCasa" aria-pressed="true">Plano de una casa</button><button class="btn sec" id="csSis" aria-pressed="false">Plano de un sistema</button></div><figcaption>Los dos planos responden lo mismo: qué partes hay, cómo se conectan y qué reglas hay que respetar.</figcaption></figure><h4>El plan de la práctica</h4><p>Son cinco momentos y duran en total unos 80 minutos. Trabajás en pareja, como en las prácticas de Git.</p><figure><div class="lienzo"><div class="flujo"><div class="f"><b>1. Repasar las piezas y las reglas</b> Lo que ya vimos en la presentación, en 10 minutos.</div><div class="fl" aria-hidden="true">↓</div><div class="f"><b>2. Conocer draw.io</b> La pantalla y los siete movimientos básicos, en 10 minutos.</div><div class="fl" aria-hidden="true">↓</div><div class="f lleno"><b>3. Dibujar juntos el sistema de notas</b> Paso a paso con esta guía, en 25 minutos.</div><div class="fl" aria-hidden="true">↓</div><div class="f lleno"><b>4. Diseñar SodaYa sin ayuda</b> Con tu pareja y los cuatro pasos del diseño, en 25 minutos.</div><div class="fl" aria-hidden="true">↓</div><div class="f"><b>5. Guardar y subir a GitHub</b> Con un README que explique tus decisiones, en 10 minutos.</div></div></div></figure><h4>Lo que ocupás</h4><p>Revisá que tengás todo antes de empezar.</p><ul class="l"><li><b>Una compu con internet:</b> draw.io funciona en el navegador, no se instala nada.</li><li><b>Tu cuenta de GitHub:</b> la que creaste en la Práctica 4 de Git. Basta con la de uno de los dos.</li><li><b>Esta guía abierta:</b> en el celular o en otra pestaña, para ir siguiendo los pasos.</li><li><b>Una hoja de papel:</b> para hacer la lista de piezas de SodaYa antes de dibujar.</li></ul></section><section class="tema" id="piezas"><h2 class="tt"><small>2</small>Las piezas de un diagrama</h2><p class="idea">Todo diagrama de arquitectura se arma con <b>seis piezas</b>. Cada una tiene su forma y su color, así cualquiera entiende el dibujo de un vistazo.</p><figure><div class="lienzo"><svg viewBox="0 0 480 312" width="480" role="img" aria-label="Las seis piezas de un diagrama de arquitectura"><defs><marker id="pzm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--tinta)"/></marker><marker id="pzr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rojo)"/></marker><marker id="pzv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--verde)"/></marker><marker id="pzp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--plano)"/></marker></defs><g class="p-act"><circle cx="80" cy="23.2" r="9.2"/><path d="M80,32.4 V57.699999999999996 M62.75,42.75 H97.25 M80,57.699999999999996 L66.2,78.39999999999999 M80,57.699999999999996 L93.8,78.39999999999999"/></g><rect x="185" y="28" width="110" height="46" rx="8" class="p-int"/><text x="240.0" y="56.2" text-anchor="middle" font-size="15">Pantalla</text><rect x="345" y="28" width="110" height="46" rx="8" class="p-log"/><text x="400.0" y="56.2" text-anchor="middle" font-size="15">Control</text><g><path class="p-dat" d="M22,189 a58.0,9 0 0,1 116,0 v46 a58.0,9 0 0,1 -116,0 z"/><path class="p-dat" style="fill:none" d="M22,189 a58.0,9 0 0,0 116,0"/></g><text x="80.0" y="222.0" text-anchor="middle" font-size="14">Base de datos</text><rect x="178" y="180" width="124" height="74" rx="4" class="p-srv"/><line x1="178" y1="202" x2="302" y2="202" style="stroke:var(--c-srv-b);stroke-width:2"/><text x="240" y="197" text-anchor="middle" font-size="14" font-weight="600">Servidor</text><line x1="350" y1="220" x2="448" y2="220" style="stroke:var(--tinta);stroke-width:2.2" marker-end="url(#pzm)"/><text x="80" y="112" text-anchor="middle" font-size="18" font-weight="700">Usuario</text><text x="80" y="136" text-anchor="middle" font-size="16">quien lo usa</text><text x="240" y="112" text-anchor="middle" font-size="18" font-weight="700">Interfaz</text><text x="240" y="136" text-anchor="middle" font-size="16">lo que se ve</text><text x="400" y="112" text-anchor="middle" font-size="18" font-weight="700">Lógica</text><text x="400" y="136" text-anchor="middle" font-size="16">la que piensa</text><text x="80" y="280" text-anchor="middle" font-size="18" font-weight="700">Datos</text><text x="80" y="304" text-anchor="middle" font-size="16">la que guarda</text><text x="240" y="280" text-anchor="middle" font-size="18" font-weight="700">Servidor</text><text x="240" y="304" text-anchor="middle" font-size="16">dónde vive</text><text x="400" y="280" text-anchor="middle" font-size="18" font-weight="700">Flecha</text><text x="400" y="304" text-anchor="middle" font-size="16">usa a, le pide a</text></svg></div><figcaption>El color dice a qué capa pertenece cada pieza: azul para lo que se ve, verde para lo que piensa y amarillo para lo que guarda.</figcaption></figure><div class="tabla"><table class="apila"><tr><th>Pieza</th><th>Cómo se dibuja</th><th>Qué es</th><th>En el sistema de notas</th></tr><tr><td><b>Usuario</b></td><td data-label="Cómo se dibuja">Un monigote. En UML se llama <i>actor</i>.</td><td data-label="Qué es">La persona que usa el sistema. Siempre va afuera del servidor.</td><td data-label="En el sistema de notas">El docente</td></tr><tr><td><b>Interfaz</b></td><td data-label="Cómo se dibuja">Caja azul</td><td data-label="Qué es">Las pantallas y formularios: lo que el usuario ve y toca. También se llama capa de presentación.</td><td data-label="En el sistema de notas">Interfaz de notas</td></tr><tr><td><b>Lógica</b></td><td data-label="Cómo se dibuja">Caja verde</td><td data-label="Qué es">Las partes que piensan: calculan, revisan, deciden y coordinan a las demás.</td><td data-label="En el sistema de notas">Control de notas y Cálculo de promedios</td></tr><tr><td><b>Datos</b></td><td data-label="Cómo se dibuja">Caja amarilla y cilindro amarillo</td><td data-label="Qué es">El repositorio (la pieza que sabe guardar y buscar) y la base de datos, donde todo queda guardado.</td><td data-label="En el sistema de notas">Repositorio de notas y Base de datos</td></tr><tr><td><b>Servidor</b></td><td data-label="Cómo se dibuja">Caja grande gris con barra arriba</td><td data-label="Qué es">La computadora donde vive el sistema. Es la vista física: las piezas van adentro.</td><td data-label="En el sistema de notas">Servidor del colegio</td></tr><tr><td><b>Flecha</b></td><td data-label="Cómo se dibuja">Una línea con punta</td><td data-label="Qué es">Una relación entre dos piezas. Se lee «usa a» o «le pide algo a».</td><td data-label="En el sistema de notas">Interfaz → Control de notas</td></tr></table></div><figure><div class="lienzo"><p style="font-weight:700;margin:0 0 4px">¿Qué pieza es? Tocá la respuesta.</p><p style="font-weight:600;margin:0 0 10px" id="pzQ"></p><div class="chips" id="pzOps"></div><p style="margin:12px 0 0;font-size:15px" id="pzFb"></p></div><div class="ctrl"><button class="btn" id="pzSig">Siguiente</button><span class="estado" id="pzCta"></span></div></figure><div class="bloque ojo"><span class="cab">No confundir</span><p>El <b>repositorio</b> y la <b>base de datos</b> no son lo mismo. El repositorio es código: la pieza que sabe guardar y buscar (el patrón repositorio de la presentación). La base de datos es el lugar donde los datos quedan guardados. Por eso en el dibujo son dos piezas distintas.</p></div></section><section class="tema" id="flechas"><h2 class="tt"><small>3</small>Las reglas de las flechas</h2><p class="idea">Las flechas son lo más importante del dibujo: dicen <b>quién le pide qué a quién</b>. En el estilo por capas tienen reglas, y un buen diagrama las cumple todas.</p><h4>Cómo se lee una flecha</h4><p>Una flecha de A hacia B se lee «A usa a B» o «A le pide algo a B». La punta siempre queda en la pieza que responde.</p><p class="corto"><b style="color:var(--plano)">En el ejemplo:</b> la flecha Interfaz de notas → Control de notas dice que la pantalla le pide a la lógica que registre la nota.</p><h4>Las cuatro reglas</h4><p>Son las mismas del estilo por capas que vimos en la presentación, dichas como reglas para dibujar.</p><ol class="l"><li><b>Los usuarios solo tocan la interfaz:</b> el docente nunca habla directo con la lógica ni con los datos.</li><li><b>Cada capa le pide a la de abajo:</b> interfaz → lógica → datos → base de datos. Nadie se salta una capa.</li><li><b>La interfaz nunca toca los datos:</b> siempre pasa primero por la lógica.</li><li><b>Ninguna flecha sube:</b> la base de datos no le pide nada a nadie, solo responde. Las piezas de una misma capa sí pueden pedirse cosas entre ellas.</li></ol><figure><div class="lienzo"><svg viewBox="0 0 480 366" width="480" role="img" aria-label="Piezas del sistema de notas con una flecha para revisar"><defs><marker id="flm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--tinta)"/></marker><marker id="flr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rojo)"/></marker><marker id="flv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--verde)"/></marker><marker id="flp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--plano)"/></marker></defs><g id="flg_doc"><g class="p-act"><circle cx="240" cy="16.4" r="8.4"/><path d="M240,24.8 V47.9 M224.25,34.25 H255.75 M240,47.9 L227.4,66.80000000000001 M240,47.9 L252.6,66.80000000000001"/></g></g><text x="262" y="44" text-anchor="start" font-size="15">Docente</text><g id="flg_int"><rect x="160" y="112" width="160" height="46" rx="8" class="p-int"/><text x="240.0" y="140.2" text-anchor="middle" font-size="15">Interfaz de notas</text></g><g id="flg_ctl"><rect x="40" y="204" width="170" height="46" rx="8" class="p-log"/><text x="125.0" y="232.2" text-anchor="middle" font-size="15">Control de notas</text></g><g id="flg_cal"><rect x="270" y="204" width="170" height="46" rx="8" class="p-log"/><text x="355.0" y="232.1" text-anchor="middle" font-size="14.5">Cálculo de promedios</text></g><g id="flg_rep"><rect x="40" y="296" width="170" height="46" rx="8" class="p-dat"/><text x="125.0" y="324.1" text-anchor="middle" font-size="14.5">Repositorio de notas</text></g><g id="flg_bd"><g><path class="p-dat" d="M295,295 a60.0,9 0 0,1 120,0 v52 a60.0,9 0 0,1 -120,0 z"/><path class="p-dat" style="fill:none" d="M295,295 a60.0,9 0 0,0 120,0"/></g><text x="355" y="331" text-anchor="middle" font-size="14.5">Base de datos</text></g><line id="flL" x1="0" y1="0" x2="0" y2="0" style="stroke:var(--plano);stroke-width:3.2" marker-end="url(#flp)"/></svg><p class="fl-pregunta" id="flQ"></p><p style="margin:6px 0 0;font-size:15px" id="flFb"></p></div><div class="ctrl"><button class="btn" id="flSi">Se vale</button><button class="btn" id="flNo">No se vale</button><button class="btn sec" id="flSig">Siguiente</button><span class="estado" id="flCta"></span></div><figcaption>Revisá cada flecha con las cuatro reglas. La flecha se pone verde si se vale y roja si no.</figcaption></figure></section></div><div class="col parte" id="parte-manos-a-la-obra"><div class="anio">Manos a la obra</div><p>La herramienta, el ejemplo guiado y tu propio diseño.</p></div><div class="col"><section class="tema" id="drawio"><h2 class="tt"><small>4</small>Conocé draw.io</h2><p class="idea"><b>draw.io</b> es un programa gratis para dibujar diagramas desde el navegador. No se instala, no pide cuenta y está en español.</p><h4>¿Qué es y de dónde sale?</h4><p>También se llama <b>diagrams.net</b>. Su código es abierto (cualquiera lo puede leer) y está publicado en GitHub, en <span class="ruta">github.com/jgraph/drawio</span>. Lo usan equipos de software reales para dibujar arquitecturas.</p><p class="corto"><b style="color:var(--plano)">En el ejemplo:</b> trae las figuras de UML, el lenguaje de descripción de arquitecturas (ADL) que más se usa en clase, y también las de ArchiMate, otro ADL de la presentación.</p><h4>Cómo abrirlo</h4><p>Tocá el botón: se abre en otra pestaña, ya en español, con una hoja en blanco. La dirección es <span class="ruta">app.diagrams.net</span>.</p><div class="acciones"><a class="btn" href="https://app.diagrams.net/?lang=es" target="_blank" rel="noopener">Abrir draw.io</a></div><div class="bloque prueba"><span class="cab">Si alguien lo usó antes en esa compu</span><p>draw.io recuerda el último dibujo. Si aparece el diagrama de otra persona, no lo borrés: usá <span class="ruta">Archivo → Nuevo… → Crear</span>. Si pregunta cómo abrirlo, escogé <b>Abrir en ventana nueva</b>.</p></div><h4>Las seis zonas de la pantalla</h4><p>Tocá un número o una zona del dibujo para ver para qué sirve.</p><figure><div class="lienzo"><svg viewBox="0 0 480 346" width="480" role="img" aria-label="Dibujo de la pantalla de draw.io con sus seis zonas numeradas"><defs><pattern id="dzCu" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M12,0 H0 V12" style="fill:none;stroke:var(--linea2);stroke-width:1"/></pattern></defs><rect x="0.5" y="0.5" width="479" height="345" rx="6" style="fill:var(--hoja);stroke:var(--linea)"/><rect class="zona" data-z="0" x="1" y="1" width="478" height="24" style="fill:var(--papel);stroke:var(--linea);stroke-width:1"/><rect class="zona" data-z="1" x="1" y="25" width="478" height="28" style="fill:var(--papel);stroke:var(--linea);stroke-width:1"/><rect class="zona" data-z="2" x="1" y="53" width="112" height="265" style="fill:var(--hoja);stroke:var(--linea);stroke-width:1"/><rect class="zona" data-z="3" x="113" y="53" width="250" height="265" style="fill:url(#dzCu);stroke:var(--linea);stroke-width:1"/><rect class="zona" data-z="4" x="363" y="53" width="116" height="265" style="fill:var(--hoja);stroke:var(--linea);stroke-width:1"/><rect class="zona" data-z="5" x="1" y="318" width="478" height="27" style="fill:var(--papel);stroke:var(--linea);stroke-width:1"/><g style="pointer-events:none"><text x="10" y="18" text-anchor="start" font-size="13" style="fill:var(--tinta2)">Archivo  Editar  Vista  Organizar  Extras  Ayuda</text><text x="10" y="44" text-anchor="start" font-size="14" style="fill:var(--tinta2)">100 %     ↶   ↷     ＋   －     ⌫</text><rect x="8" y="60" width="98" height="20" rx="4" style="fill:var(--papel);stroke:var(--linea)"/><text x="14" y="74" text-anchor="start" font-size="12.5" style="fill:var(--tinta2)">Buscar</text><text x="10" y="100" text-anchor="start" font-size="13" font-weight="700">General</text><rect x="10" y="110" width="26" height="16" class="trazo" style="stroke-width:1.5"/><rect x="42" y="110" width="26" height="16" rx="5" class="trazo" style="stroke-width:1.5"/><ellipse cx="87" cy="118" rx="13" ry="8" class="trazo" style="stroke-width:1.5"/><g><path class="trazo" d="M14,143 a10.0,9 0 0,1 20,0 v8 a10.0,9 0 0,1 -20,0 z"/><path class="trazo" style="fill:none" d="M14,143 a10.0,9 0 0,0 20,0"/></g><g class="trazo"><circle cx="55" cy="136.84" r="3.84"/><path d="M55,140.68 V151.24 M47.8,145.0 H62.2 M55,151.24 L49.24,159.88 M55,151.24 L60.76,159.88"/></g><rect x="74" y="136" width="26" height="22" class="trazo" style="stroke-width:1.5"/><line x1="74" y1="142" x2="100" y2="142" class="trazo" style="stroke-width:1.5"/><text x="10" y="186" text-anchor="start" font-size="12.5" style="fill:var(--tinta2)">Miscelánea</text><text x="10" y="206" text-anchor="start" font-size="12.5" style="fill:var(--tinta2)">Avanzado</text><text x="10" y="226" text-anchor="start" font-size="13" font-weight="700">UML</text><rect x="10" y="236" width="40" height="22" class="trazo" style="stroke-width:1.5"/><rect x="58" y="236" width="40" height="22" class="trazo" style="stroke-width:1.5"/><rect x="12" y="290" width="90" height="20" rx="5" class="lleno"/><text x="57" y="304" text-anchor="middle" font-size="12.5" font-weight="600" style="fill:var(--sobre-plano)">+ Más formas</text><rect x="188" y="160" width="100" height="40" rx="8" class="p-int"/><text x="238.0" y="184.9" text-anchor="middle" font-size="14">Interfaz</text><polygon points="238,142 232,152 244,152" style="fill:var(--plano)"/><polygon points="238,218 232,208 244,208" style="fill:var(--plano)"/><polygon points="170,180 180,174 180,186" style="fill:var(--plano)"/><polygon points="306,180 296,174 296,186" style="fill:var(--plano)"/><text x="372" y="72" text-anchor="start" font-size="12.5" font-weight="700">Estilo</text><text x="412" y="72" text-anchor="start" font-size="12.5" style="fill:var(--tinta2)">Texto</text><line x1="370" y1="78" x2="404" y2="78" style="stroke:var(--plano);stroke-width:2"/><rect x="372" y="90" width="19" height="16" rx="3" style="fill:#FFFFFF;stroke:#8A94A6"/><rect x="397" y="90" width="19" height="16" rx="3" style="fill:#F5F5F5;stroke:#8A94A6"/><rect x="422" y="90" width="19" height="16" rx="3" style="fill:#DAE8FC;stroke:#8A94A6"/><rect x="447" y="90" width="19" height="16" rx="3" style="fill:#D5E8D4;stroke:#8A94A6"/><rect x="372" y="112" width="19" height="16" rx="3" style="fill:#FFE6CC;stroke:#8A94A6"/><rect x="397" y="112" width="19" height="16" rx="3" style="fill:#FFF2CC;stroke:#8A94A6"/><rect x="422" y="112" width="19" height="16" rx="3" style="fill:#F8CECC;stroke:#8A94A6"/><rect x="447" y="112" width="19" height="16" rx="3" style="fill:#E1D5E7;stroke:#8A94A6"/><text x="372" y="158" text-anchor="start" font-size="12.5">Relleno</text><text x="372" y="182" text-anchor="start" font-size="12.5">Línea</text><text x="372" y="206" text-anchor="start" font-size="12.5">Opacidad</text><text x="10" y="336" text-anchor="start" font-size="13" style="fill:var(--tinta2)">+    ≡    Página-1</text><circle cx="340" cy="13" r="11" class="lleno"/><text x="340" y="17.5" text-anchor="middle" font-size="13" font-weight="700" style="fill:var(--sobre-plano)">1</text><circle cx="340" cy="39" r="11" class="lleno"/><text x="340" y="43.5" text-anchor="middle" font-size="13" font-weight="700" style="fill:var(--sobre-plano)">2</text><circle cx="96" cy="100" r="11" class="lleno"/><text x="96" y="104.5" text-anchor="middle" font-size="13" font-weight="700" style="fill:var(--sobre-plano)">3</text><circle cx="330" cy="76" r="11" class="lleno"/><text x="330" y="80.5" text-anchor="middle" font-size="13" font-weight="700" style="fill:var(--sobre-plano)">4</text><circle cx="450" cy="132" r="11" class="lleno"/><text x="450" y="136.5" text-anchor="middle" font-size="13" font-weight="700" style="fill:var(--sobre-plano)">5</text><circle cx="150" cy="331" r="11" class="lleno"/><text x="150" y="335.5" text-anchor="middle" font-size="13" font-weight="700" style="fill:var(--sobre-plano)">6</text></g><rect id="dzSel" x="0" y="0" width="0" height="0" rx="4" style="fill:none;stroke:var(--oro);stroke-width:4;pointer-events:none"/></svg><div class="chips" id="dzOps" style="margin-top:14px"></div><div class="dz-info" id="dzInfo" aria-live="polite"></div></div><figcaption>Así se ve draw.io en una compu. En el celular cambia un poco, por eso la práctica se hace en compu.</figcaption></figure></section><section class="tema" id="movimientos"><h2 class="tt"><small>5</small>Los siete movimientos</h2><p class="idea">Con <b>siete movimientos</b> se dibuja todo el diagrama. Probalos una vez en la hoja en blanco antes de empezar el ejemplo.</p><div class="tabla"><table><tr><th>Movimiento</th><th>Cómo se hace</th></tr><tr><td><b>Poner una figura</b></td><td>Arrastrala desde el panel de formas hasta el lienzo. Si solo le das clic, aparece en el centro de la pantalla, a veces encima de otra, y la tenés que mover.</td></tr><tr><td><b>Escribirle el nombre</b></td><td>Doble clic sobre la figura, escribí y hacé clic en un espacio vacío para terminar. Si ya tenía texto, <kbd class="tecla">Ctrl</kbd> + <kbd class="tecla">A</kbd> lo selecciona todo para reemplazarlo.</td></tr><tr><td><b>Mover y agrandar</b></td><td>Arrastrá la figura para moverla. Para agrandarla, jalá uno de los puntitos azules de las esquinas.</td></tr><tr><td><b>Pintar</b></td><td>Seleccioná la figura con un clic. En el panel de la derecha, pestaña <b>Estilo</b>, tocá uno de los cuadritos de color.</td></tr><tr><td><b>Crear otra caja ya conectada</b></td><td>Dejá el mouse quieto sobre la figura: salen cuatro flechitas azules. Tocá una y escogé la primera figura del menú. draw.io crea una caja igual, ya conectada con su flecha.</td></tr><tr><td><b>Conectar dos figuras que ya existen</b></td><td>Dejá el mouse sobre la primera, <b>arrastrá</b> una de sus flechitas azules hasta la segunda y soltala cuando la segunda se marque en azul.</td></tr><tr><td><b>Borrar y deshacer</b></td><td>Seleccioná y tocá <kbd class="tecla">Supr</kbd>. Si te equivocás, <kbd class="tecla">Ctrl</kbd> + <kbd class="tecla">Z</kbd> deshace lo último.</td></tr></table></div><figure><div class="lienzo"><svg viewBox="0 0 480 214" width="480" role="img" aria-label="Al tocar una flechita azul, draw.io crea otra caja conectada"><defs><marker id="fhm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--tinta)"/></marker><marker id="fhr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rojo)"/></marker><marker id="fhv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--verde)"/></marker><marker id="fhp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--plano)"/></marker></defs><rect x="40" y="66" width="120" height="46" rx="8" class="p-int"/><text x="100.0" y="94.2" text-anchor="middle" font-size="15">Interfaz</text><polygon points="100,46 92,58 108,58" style="fill:var(--plano)"/><polygon points="100,132 92,120 108,120" style="fill:var(--plano)"/><polygon points="20,89 32,81 32,97" style="fill:var(--plano)"/><polygon points="180,89 168,81 168,97" style="fill:var(--plano)"/><path d="M106,124 l0,22 l6,-6 l6,11 l4,-2 l-6,-11 l8,0 z" style="fill:var(--hoja);stroke:var(--tinta);stroke-width:1.5"/><text x="100" y="182" text-anchor="middle" font-size="16">1. Pasá el mouse y</text><text x="100" y="203" text-anchor="middle" font-size="16">tocá la de abajo</text><line x1="206" y1="90" x2="262" y2="90" style="stroke:var(--plano);stroke-width:2.2" marker-end="url(#fhp)"/><rect x="300" y="22" width="140" height="44" rx="8" class="p-int"/><text x="370.0" y="49.2" text-anchor="middle" font-size="15">Interfaz</text><line x1="370" y1="66" x2="370" y2="108" style="stroke:var(--tinta);stroke-width:2.2" marker-end="url(#fhm)"/><rect x="300" y="110" width="140" height="44" rx="8" class="p-int"/><text x="370.0" y="137.2" text-anchor="middle" font-size="15">Interfaz</text><text x="370" y="182" text-anchor="middle" font-size="16">2. Sale otra caja</text><text x="370" y="203" text-anchor="middle" font-size="16">ya conectada</text></svg></div><figcaption>El movimiento que más tiempo ahorra: tocar una flechita azul crea la caja siguiente con la flecha ya puesta.</figcaption></figure><figure><div class="lienzo"><p style="font-weight:700;margin:0 0 10px">Uní cada movimiento con cómo se hace</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div id="mvA" style="display:grid;gap:8px"></div><div id="mvB" style="display:grid;gap:8px"></div></div></div><div class="ctrl"><span class="estado" id="mvMsg"></span><button class="btn sec" id="mvRe">Otra vez</button></div></figure></section><section class="tema" id="ejemplo"><h2 class="tt"><small>6</small>Paso a paso: el sistema de notas</h2><p class="idea">Ahora vas a dibujar con tu pareja la arquitectura del <b>sistema de notas</b>, el ejemplo de la presentación. Hacé cada paso en draw.io y tocá <b>Siguiente paso</b> cuando lo terminés.</p><div class="bloque soda"><span class="cab">El requerimiento</span><p>El colegio necesita un sistema web donde cada docente registre las notas de sus grupos y el sistema calcule solo la nota final, con el porcentaje que vale cada rubro. Todo corre en el servidor del colegio y el docente entra desde el navegador.</p></div><figure><div class="lienzo"><svg viewBox="0 0 480 540" width="480" role="img" aria-label="La arquitectura del sistema de notas, armada paso a paso"><defs><marker id="psm" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--tinta)"/></marker><marker id="psr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--rojo)"/></marker><marker id="psv" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--verde)"/></marker><marker id="psp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--plano)"/></marker></defs><g id="psg1" class="psg"><rect x="20" y="120" width="440" height="372" rx="4" class="p-srv"/><line x1="20" y1="150" x2="460" y2="150" style="stroke:var(--c-srv-b);stroke-width:2"/><text x="448" y="141" text-anchor="end" font-size="15" font-weight="700">Servidor del colegio</text></g><g id="psg2" class="psg"><rect x="90" y="168" width="160" height="44" rx="8" class="p-int"/><text x="170.0" y="195.2" text-anchor="middle" font-size="15">Interfaz de notas</text></g><g id="psg3" class="psg"><rect x="90" y="248" width="160" height="44" rx="8" class="p-log"/><text x="170.0" y="275.2" text-anchor="middle" font-size="15">Control de notas</text><line x1="170" y1="212" x2="170" y2="246" style="stroke:var(--tinta);stroke-width:2.2" marker-end="url(#psm)"/></g><g id="psg4" class="psg"><rect x="285" y="248" width="165" height="44" rx="8" class="p-log"/><text x="367.5" y="275.1" text-anchor="middle" font-size="14.5">Cálculo de promedios</text><line x1="250" y1="270" x2="283" y2="270" style="stroke:var(--tinta);stroke-width:2.2" marker-end="url(#psm)"/></g><g id="psg5" class="psg"><rect x="90" y="328" width="160" height="44" rx="8" class="p-dat"/><text x="170.0" y="355.1" text-anchor="middle" font-size="14.5">Repositorio de notas</text><line x1="170" y1="292" x2="170" y2="326" style="stroke:var(--tinta);stroke-width:2.2" marker-end="url(#psm)"/></g><g id="psg6" class="psg"><g><path class="p-dat" d="M112,411 a58.0,9 0 0,1 116,0 v44 a58.0,9 0 0,1 -116,0 z"/><path class="p-dat" style="fill:none" d="M112,411 a58.0,9 0 0,0 116,0"/></g><text x="170" y="444" text-anchor="middle" font-size="14.5">Base de datos</text><line x1="170" y1="372" x2="170" y2="400" style="stroke:var(--tinta);stroke-width:2.2" marker-end="url(#psm)"/></g><g id="psg7" class="psg"><g class="p-act"><circle cx="170" cy="52.0" r="8.0"/><path d="M170,60.0 V82.0 M155.0,69.0 H185.0 M170,82.0 L158.0,100.0 M170,82.0 L182.0,100.0"/></g><text x="190" y="76" text-anchor="start" font-size="15">Docente</text><line x1="170" y1="104" x2="170" y2="166" style="stroke:var(--tinta);stroke-width:2.2" marker-end="url(#psm)"/></g><g id="psg8" class="psg"><text x="240" y="24" text-anchor="middle" font-size="17" font-weight="700">Sistema de notas · estilo por capas</text></g><g id="psg9" class="psg"><rect x="80" y="504" width="320" height="30" rx="15" style="fill:var(--verde-sv);stroke:var(--verde)"/><text x="240" y="524" text-anchor="middle" font-size="14.5" font-weight="600" style="fill:var(--verde)">✓ arquitectura-notas.drawio.png</text></g></svg><div class="paso activo" style="margin-top:14px" id="psTxt" aria-live="polite"></div></div><div class="ctrl"><button class="btn sec" id="psAnt">Paso anterior</button><button class="btn" id="psSig">Siguiente paso</button><span class="estado" id="psCta"></span></div><figcaption>Lo que ya hiciste se ve fuerte; lo que falta, clarito.</figcaption></figure><div class="acciones"><a class="btn" href="https://app.diagrams.net/?lang=es" target="_blank" rel="noopener">Abrir draw.io</a><a class="btn sec" href="https://app.diagrams.net/?lang=es&title=ejemplo-notas.drawio#R7Zpdc6M2FIZ%2FjWfamwwfhnUuEyfbdsZtd5rp9FpGB6yuQKwQjr2%2FvpKQMF%2BOk11sWjfJZAYfJGHe55U4OmHmL9NdTCjMPGfDCjHzH2aeh%2FL8BhOUcJQWNxkIGZr5jzN%2FaYKycYZSqBr%2FxgQqVAvPIbgKZTakO6W7nzjKN78yDFQ2wruqkes4TtUN76vIBxtIuB3JPQSeyFewPU20JBiKVkPBGBUkbwcjlmUQiVYMcc6e281iRttXzVECvcBThGg%2F%2BhfBYmOirr0NdeJnIMnGXHoRmBMpso1NoNggzJ4bIS0cZ0xYCZdAaUPhqt%2FHI2frL8YhE6%2FpIKoOW0RLc29PpBCQIkVHecMQdWZLb3b%2FQR5AIQhl6iKMK4lRbk1QiL0VSMBOXv5%2BI1IqA648RJQkmTyO5BcDLgNb4IJISe%2FMiZRgrLrfP2%2BIgKccRWqsZ2kgGeOszDCo7%2BzITzHLhDGFV382F1fXMvckLwC7o7q4TZsCS0HwvWxiOswNn32L1vMBdmBZbxqc%2FdB4zPgrqcc9IJAHhsIwEcyiHpMHpmWbeSFVsq6l8GGijn6Q00BjKko9NbeQSD%2FxH3tApM9ydVim9C4STAGgaA30EyuIIEwB4NV91GBWnfM1IIuSQixeAllIhiRLVrrZQ9j2AysFJRks6xnaAevOxwEpSbVIhvMeSn%2BAZOh8P8mCb%2FuzC%2FiWYD1zqkUxYhQSwvrAnklKUXZsQjSULATiVjXf66gYqM%2BE0iWjCroc2Y8D9as7cvYZGmdC%2FWNGaMSrnz75NmDXO8vUc8PXTr7bEZiRrL8i%2FqJWrBh97SyJHWCHJUovdzyyCLzTCLu%2B7xDDCBZxNEgsWsA6fq3uxpBHlXe9tvRBX%2FmaRlP5YAThI0F7wsvFQd4wnU73ABZ4PqT7wlv7eqacRXd3fknh0YDws6U%2Fu3NpVOonvVY%2F53JsTNhVEvDdCQlwyHsE%2FoBcPXkZJ2wy%2B8dx7EWDyw4O12FwNvvXD%2BRLiL%2FGPe3vUQFWdIzEgONtNhXtZQ6DgfuntV5XnFbrOoCiz4mm93uVCtnHeYPfvwVQ0AZUz5YmoKFHcjhCPgxuD1CPB2C5PTMfGRcblrAM0cdDtLOBOLRZMZYb4f8GIfZGbVQKdnyuKDSQ4Tu1k1QuoKgoSFQFPxJ6SMwUFbtBdG%2BCmof6vi9nR%2FL2WMkj6OwJZKqXgGilKn1qHCgSZNu%2BwhCCg%2F5179ch8d6R1IliE4lJYqZA4r8jqVPIFhI0GZL5O5JBJCbfmQJJ8I6kzjabSKosaAIiVAwQMVUuW%2BRawV6KgWxcDlmfekPh8VS16k1lR9cfqLOMUPsIFqeLH3U1splpeSNkWjRyTk%2BP%2F0CZ440S3%2FYrglbNlsLzERTeOcerS%2F6dPKH3219KXdIFfauTWnwEvUM37Ojt9TcPt0OWXoxhaXdaS49Uv3ibpWvpLmLpvsIrVT669xNpQuNqVLs6J5AV6NpMXct7GVN7k5p6rLLDG00dehc0dV%2FhB10J6to5KRHH12fngbTjjHb2p7Xzt%2F8%2F7Bw2vw0vaHP%2F%2BD8otdNxtZJnuha6JdeXjXgD2d%2F5nB7%2FH7ef37urTHefmK62HZsy%2FtxrD1Ftd02v5ssvnYFCZ%2FHyQNUWuTfQt%2Bxz412P%2FUcK0cZkSKXKiRz5t1TPlypR0pPu6p4t%2FkByer4ZV56ecQOvxhx7BWbNhGDpgMSC5dO83hIsOuoOvN%2Fizs9ULyj7nv6zkAkRYZWpv5Qy2beb2vL6sv5BsUeysvx4eAuwWnAO71LaoH0r89BIv9HpP%2F4D" target="_blank" rel="noopener">Ver el ejemplo terminado</a></div><p class="corto">El ejemplo terminado se abre en otra pestaña y no borra lo tuyo. Usalo para comparar al final, no para copiarlo.</p><h4>Si algo sale mal</h4><p>Buscá el problema en la tabla antes de llamar al docente.</p><div class="tabla"><table><tr><th>Lo que pasa</th><th>Qué hacer</th></tr><tr><td>La figura apareció encima de otra</td><td>Arrastrala a su lugar. Para que no pase, arrastrá las figuras desde el panel en vez de darles clic.</td></tr><tr><td>No salen las flechitas azules</td><td>Dejá el mouse quieto un segundo sobre la figura, sin hacer clic. Si siguen sin salir: menú <span class="ruta">Vista → Flechas de conexión</span>.</td></tr><tr><td>Una flecha quedó suelta y no sigue a la caja</td><td>Arrastrá la punta de la flecha hasta la caja y soltala cuando la caja se marque en azul.</td></tr><tr><td>Desapareció el panel de formas o el de la derecha</td><td>Menú <span class="ruta">Vista → Formas</span> para el de la izquierda y <span class="ruta">Vista → Formato</span> para el de la derecha.</td></tr><tr><td>Se ve muy pequeño o muy grande</td><td>Usá las lupas de la barra de arriba o <kbd class="tecla">Alt</kbd> + la rueda del mouse.</td></tr><tr><td>Borré algo sin querer</td><td><kbd class="tecla">Ctrl</kbd> + <kbd class="tecla">Z</kbd> lo devuelve. Se puede usar varias veces.</td></tr><tr><td>Se cerró la pestaña sin guardar</td><td>Volvé a abrir draw.io en la misma compu: muchas veces recupera el dibujo solo. Por eso guardá apenas terminés cada diagrama.</td></tr></table></div></section><section class="tema" id="sodaya"><h2 class="tt"><small>7</small>Ahora vos: SodaYa</h2><p class="idea">Ya sabés usar la herramienta. Ahora diseñás con tu pareja, sin ayuda, la arquitectura de <b>SodaYa</b>, siguiendo los cuatro pasos del diseño que vimos en clase.</p><div class="bloque soda"><span class="cab">El requerimiento de SodaYa</span><p>La soda del colegio quiere una app web llamada SodaYa. Cada estudiante ve en el celular el menú del día, arma su pedido y lo paga al retirarlo. En la cocina, la encargada ve en una pantalla los pedidos que van llegando y marca cada uno como «listo». En ese momento al estudiante le llega un aviso al celular para que pase a recogerlo. La encargada también cambia el menú y los precios cuando quiere. Todo se guarda: el menú, los pedidos y las ventas del día. El sistema vive en un servidor en la nube (un hosting que se alquila), porque el colegio no tiene servidor propio.</p></div><h4>¿Qué debe hacer?</h4><p>Esta es la lista de tareas que sale del requerimiento. Cada tarea la tiene que hacer alguna pieza de tu dibujo.</p><ol class="l"><li>Mostrar el menú del día con sus precios.</li><li>Recibir el pedido del estudiante y calcular el total.</li><li>Mostrar los pedidos en la pantalla de la cocina.</li><li>Avisarle al estudiante cuando su pedido está listo.</li><li>Dejar que la encargada cambie el menú y los precios.</li><li>Guardar el menú, los pedidos y las ventas.</li></ol><h4>Los cuatro pasos del diseño, aplicados</h4><p>Son los pasos de la presentación. Los dos primeros se hacen en papel; los otros dos, en draw.io.</p><figure><div class="lienzo"><div class="flujo"><div class="f"><b>1. Ver el sistema desde afuera</b> Subrayá en el requerimiento las personas que lo usan: esos son los usuarios.</div><div class="fl" aria-hidden="true">↓</div><div class="f"><b>2. Ver el sistema desde adentro</b> En papel, hacé la lista de piezas: cuáles son interfaz, cuáles lógica y cuáles datos.</div><div class="fl" aria-hidden="true">↓</div><div class="f lleno"><b>3. Describir las piezas</b> Dibujalas en draw.io con su color y conectalas con flechas que cumplan las cuatro reglas.</div><div class="fl" aria-hidden="true">↓</div><div class="f lleno"><b>4. Ubicar cada parte en su servidor</b> Metelas en la caja del servidor en la nube. Los usuarios quedan afuera.</div></div></div></figure><h4>Para empezar una hoja nueva</h4><p>Primero guardá el sistema de notas. Después: <span class="ruta">Archivo → Nuevo…</span> En <b>Nombre del diagrama</b> escribí <b>arquitectura-sodaya</b> y tocá <b>Crear</b>. Si pregunta cómo abrirlo, escogé <b>Abrir en ventana nueva</b>.</p><h4>Lo mínimo que debe tener tu diagrama</h4><p>Si te falta algo de esta lista, el diseño está incompleto.</p><ul class="l"><li><b>Dos usuarios:</b> afuera del servidor, cada uno con su monigote.</li><li><b>Dos interfaces</b> (azules): cada usuario usa una pantalla distinta.</li><li><b>Al menos tres piezas de lógica</b> (verdes): pensá qué tiene que calcular, decidir o avisar el sistema.</li><li><b>La parte de datos</b> (amarilla): un repositorio y la base de datos.</li><li><b>El servidor en la nube:</b> la caja grande, con todas las piezas adentro.</li><li><b>Flechas que cumplen las cuatro reglas.</b></li><li><b>Un título</b> con el nombre del sistema y su estilo.</li></ul><figure><div class="lienzo"><p style="font-weight:700;margin:0 0 10px">¿Te trabaste? Pedí una pista</p><ol class="pista-lista" id="piLista"></ol></div><div class="ctrl"><button class="btn" id="piBtn">Mostrar una pista</button><button class="btn sec" id="piRe">Esconder las pistas</button><span class="estado" id="piCta"></span></div></figure><div class="bloque ojo"><span class="cab">No confundir</span><p>Dos pantallas no son dos sistemas. SodaYa es <b>un solo sistema</b> con dos interfaces, la del estudiante y la de la cocina, que comparten la misma lógica y los mismos datos.</p></div></section></div><div class="col parte" id="parte-entregar"><div class="anio">Entregar</div><p>Publicar la arquitectura en GitHub y revisar que esté completa.</p></div><div class="col"><section class="tema" id="github"><h2 class="tt"><small>8</small>Guardar y subir a GitHub</h2><p class="idea">Tu arquitectura no se queda en la compu: la vas a publicar en un repositorio de GitHub, con un <b>README</b> (el archivo que GitHub muestra como portada del repositorio) que explique tus decisiones.</p><h4>1. Guardá los dos diagramas</h4><p>Si falta alguno: <span class="ruta">Archivo → Guardar como…</span>, Tipo <b>Imagen Bitmap Editable (.png)</b>, Dónde <b>Descargar</b>. En la carpeta Descargas tienen que quedar <b>arquitectura-notas.drawio.png</b> y <b>arquitectura-sodaya.drawio.png</b>.</p><h4>¿Por qué .drawio.png?</h4><p>Es una imagen normal, que GitHub y cualquier compu pueden mostrar, pero por dentro guarda el diagrama completo. Si la abrís otra vez en draw.io con <span class="ruta">Archivo → Abrir desde → Dispositivo</span>, la podés seguir editando.</p><h4>2. Creá el repositorio</h4><p>Lo crea uno de los dos, en su cuenta. En GitHub: botón <b>+</b> de arriba a la derecha → <b>New repository</b>. Nombre: <b>arquitectura-de-software</b>, en <b>Public</b>. Esta vez <b>sí</b> activá la opción del README (dice <i>Add README</i> o <i>Add a README file</i>): no vas a hacer push desde la compu, todo se hace en el navegador. Tocá <b>Create repository</b>.</p><h4>3. Subí las dos imágenes</h4><p><b>Add file → Upload files</b>, arrastrá los dos archivos .drawio.png, escribí un mensaje de commit que empiece con un verbo (por ejemplo <i>Agrega los diagramas de arquitectura</i>) y tocá <b>Commit changes</b>. Es lo mismo que hiciste en la Práctica 5 de Git.</p><h4>4. Escribí el README</h4><p>Abrí <b>README.md</b>, tocá el lápiz (<i>Edit this file</i>), borrá lo que tiene y pegá esta plantilla. Cambiá todo lo que está entre corchetes, y borrá también los corchetes. Al final, <b>Commit changes…</b> con un mensaje como <i>Escribe el README con las decisiones</i>.</p><div class="codigo"><pre id="rmTxt"># Arquitectura de software: SodaYa
+
+**Integrantes:** [nombre 1] y [nombre 2] · Sección [10-?]
+
+## Diagrama de SodaYa
+
+![Arquitectura de SodaYa](arquitectura-sodaya.drawio.png)
+
+## Decisiones
+
+- **Género:** [¿a qué campo pertenece el sistema?]
+- **Estilo:** [¿de qué forma se organizan sus partes?]
+- **Patrones:** [¿qué soluciones ya probadas usa?]
+- **¿Por qué ese estilo?:** [una o dos frases]
+
+## Ejemplo guiado: sistema de notas
+
+![Arquitectura del sistema de notas](arquitectura-notas.drawio.png)
+</pre><div class="ctrl"><button class="btn" id="rmCopiar">Copiar la plantilla</button><span class="estado" id="rmMsg"></span></div></div><p class="corto">Lo que va entre paréntesis en las líneas de las imágenes tiene que ser idéntico al nombre del archivo que subiste, letra por letra. Si no, GitHub no encuentra la imagen.</p><h4>5. Revisá y entregá</h4><p>Entrá a la página principal del repositorio: debajo de la lista de archivos tiene que verse el README con los dos diagramas. Copiá el enlace del repositorio y entregáselo al docente.</p><figure><div class="lienzo"><p style="font-weight:700;margin:0 0 6px">Ordená los pasos para publicar la arquitectura</p><p style="margin:0 0 10px;font-size:15px;color:var(--tinta2)">Tocá los pasos en el orden en que se hacen.</p><div class="orden-fila" id="orFila"></div><div class="chips" id="orOps"></div></div><div class="ctrl"><span class="estado" id="orMsg"></span><button class="btn sec" id="orRe">Otra vez</button></div></figure></section><section class="tema" id="entrega"><h2 class="tt"><small>9</small>Lista de entrega</h2><p class="idea">Antes de entregar, revisá tu trabajo con esta lista. Marcá cada punto cuando lo cumplás: la lista queda guardada en este navegador.</p><figure><div class="lienzo"><p style="font-weight:700;margin:0">Lista de entrega</p><div class="avance-chk"><i id="ckBar"></i></div><p style="margin:0 0 4px;font-size:15px;color:var(--tinta2)" id="ckCta"></p><div class="lista-chk" id="ckLista"><p class="grupo">Ejemplo guiado</p><label for="ck1"><input type="checkbox" id="ck1"><span>El diagrama del sistema de notas tiene sus seis piezas y sus cinco flechas.</span></label><p class="grupo">SodaYa</p><label for="ck2"><input type="checkbox" id="ck2"><span>Están los dos usuarios, afuera del servidor.</span></label><label for="ck3"><input type="checkbox" id="ck3"><span>Hay dos interfaces azules, al menos tres piezas de lógica verdes y la parte de datos amarilla.</span></label><label for="ck4"><input type="checkbox" id="ck4"><span>Todas las piezas están adentro de la caja del servidor en la nube.</span></label><label for="ck5"><input type="checkbox" id="ck5"><span>Ninguna flecha se salta una capa ni va hacia arriba.</span></label><label for="ck6"><input type="checkbox" id="ck6"><span>Tiene un título con el nombre del sistema y su estilo.</span></label><p class="grupo">GitHub</p><label for="ck7"><input type="checkbox" id="ck7"><span>El repositorio arquitectura-de-software es público.</span></label><label for="ck8"><input type="checkbox" id="ck8"><span>Están subidos los dos archivos .drawio.png.</span></label><label for="ck9"><input type="checkbox" id="ck9"><span>El README muestra el diagrama y dice el género, el estilo, los patrones y por qué.</span></label><label for="ck10"><input type="checkbox" id="ck10"><span>Los mensajes de los commits empiezan con un verbo.</span></label><label for="ck11"><input type="checkbox" id="ck11"><span>El enlace del repositorio ya está entregado al docente.</span></label></div></div><div class="ctrl"><button class="btn sec" id="ckRe">Desmarcar todo</button></div></figure></section>
+</div>
+<footer class="col"><p>Creado por Jefernee.</p></footer>
+<script>
+(function(){
+  function $(id){ return document.getElementById(id); }
+  function qa(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  function revolver(a){ a = a.slice(); for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function col(n){ return '₡' + Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
+
+  /* ---------- barra, avance e índice lateral ---------- */
+  var barra = $('avance'), tit = $('barraTit');
+  function onScroll(){ var h = document.documentElement, max = h.scrollHeight - h.clientHeight; barra.style.width = (max > 0 ? h.scrollTop / max * 100 : 0) + '%'; }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (!e.isIntersecting) return; var h2 = e.target.querySelector('h2.tt'); if (h2){ var c = h2.cloneNode(true); var s = c.querySelector('small'); if (s) s.remove(); tit.textContent = c.textContent.trim(); }
+      qa('nav.indice a').forEach(function(a){ a.classList.toggle('actual', a.getAttribute('href') === '#' + e.target.id); }); }); }, {rootMargin:'-80px 0px -70% 0px'});
+    qa('section.tema').forEach(function(s){ io.observe(s); });
+  }
+  qa('figure .lienzo').forEach(function(l){ var h = document.createElement('div'); h.className = 'hint'; h.textContent = 'Deslizá hacia el lado para verlo completo.'; l.parentNode.insertBefore(h, l.nextSibling); });
+  function revisarDesliza(){ qa('figure .lienzo').forEach(function(l){ l.parentNode.classList.toggle('desliza', l.scrollWidth > l.clientWidth + 4); }); }
+  window.addEventListener('resize', revisarDesliza); window.addEventListener('load', revisarDesliza);
+
+  /* ---------- clasificador genérico ---------- */
+  function clasif(p, ops, casos){
+    var i = 0, ok = 0; casos = revolver(casos);
+    function pintar(){
+      var c = casos[i]; $(p + 'Q').textContent = (i + 1) + ' de ' + casos.length + ': ' + c[0]; $(p + 'Fb').textContent = '';
+      var box = $(p + 'Ops'); box.innerHTML = ''; delete box.dataset.r;
+      ops.forEach(function(o, k){ var b = document.createElement('button'); b.className = 'chip'; b.textContent = o;
+        b.onclick = function(){ if (box.dataset.r) return; box.dataset.r = 1; qa('button', box).forEach(function(x, m){ x.disabled = true; if (m === c[1]) x.classList.add('bien'); });
+          if (k === c[1]){ ok++; $(p + 'Fb').textContent = 'Correcto. ' + c[2]; } else { b.classList.add('mal'); $(p + 'Fb').textContent = 'No. ' + c[2]; }
+          $(p + 'Cta').textContent = ok + ' de ' + (i + 1); $(p + 'Sig').disabled = false; };
+        box.appendChild(b); });
+      $(p + 'Sig').disabled = true; $(p + 'Sig').textContent = i === casos.length - 1 ? 'Volver a empezar' : 'Siguiente';
+    }
+    $(p + 'Sig').onclick = function(){ if (i === casos.length - 1){ i = 0; ok = 0; casos = revolver(casos); $(p + 'Cta').textContent = ''; } else i++; pintar(); };
+    pintar();
+  }
+  /* ---------- emparejar genérico ---------- */
+  function empareja(p, pares){
+    var sel = null, ok = 0;
+    function pintar(){
+      var A = $(p + 'A'), B = $(p + 'B'); A.innerHTML = ''; B.innerHTML = ''; sel = null; ok = 0;
+      revolver(pares).forEach(function(x){ var b = document.createElement('button'); b.className = 'em'; b.textContent = x[0]; b.dataset.k = x[0];
+        b.onclick = function(){ if (b.disabled) return; qa('.em', A).forEach(function(y){ y.classList.remove('sel'); }); b.classList.add('sel'); sel = b; }; A.appendChild(b); });
+      revolver(pares).forEach(function(x){ var b = document.createElement('button'); b.className = 'em'; b.textContent = x[1]; b.dataset.k = x[0]; b.style.fontSize = '14px';
+        b.onclick = function(){ if (b.disabled) return; if (!sel){ $(p + 'Msg').textContent = 'Primero tocá un elemento de la izquierda.'; return; }
+          if (sel.dataset.k === b.dataset.k){ [sel, b].forEach(function(y){ y.classList.remove('sel'); y.classList.add('bien'); y.disabled = true; }); sel = null; ok++; $(p + 'Msg').textContent = ok === pares.length ? '¡Todas correctas!' : 'Correcto. Vas ' + ok + ' de ' + pares.length + '.'; }
+          else { b.classList.add('mal'); setTimeout(function(){ b.classList.remove('mal'); }, 700); $(p + 'Msg').textContent = 'Esa no es. Probá otra.'; } }; B.appendChild(b); });
+      $(p + 'Msg').textContent = 'Tocá un elemento de la izquierda y después su pareja.';
+    }
+    $(p + 'Re').onclick = pintar; pintar();
+  }
+  function botonesUno(cont, al){ qa('button', cont).forEach(function(b){ b.onclick = function(){ qa('button', cont).forEach(function(x){ x.className = 'chip'; }); b.className = 'chip puesto'; al(b.dataset.v); }; }); }
+
+
+  /* ---------- paso a paso genérico: pasos = [[idCajaAResaltar o null, texto], ...] ---------- */
+  function pasoAPaso(p, pasos){
+    var i = 0;
+    function pintar(){ pasos.forEach(function(s){ if (s[0] && $(s[0])) $(s[0]).classList.remove('luz'); });
+      if (pasos[i][0] && $(pasos[i][0])) $(pasos[i][0]).classList.add('luz');
+      $(p + 'Txt').innerHTML = '<span class="n">' + i + '</span><div>' + pasos[i][1] + '</div>'; $(p + 'Sig').disabled = i === pasos.length - 1; }
+    $(p + 'Sig').onclick = function(){ if (i < pasos.length - 1){ i++; pintar(); } }; $(p + 'Re').onclick = function(){ i = 0; pintar(); }; pintar();
+  }
+  /* ---------- alternar entre versiones: botones = [[idBoton, clave], ...], versiones = {clave: html} ---------- */
+  function alternar(caja, botones, versiones){
+    function pintar(k){ $(caja).innerHTML = versiones[k]; botones.forEach(function(b){ $(b[0]).setAttribute('aria-pressed', b[1] === k); }); }
+    botones.forEach(function(b){ $(b[0]).onclick = function(){ pintar(b[1]); }; }); pintar(botones[0][1]);
+  }
+
+alternar('csCaja', [['csCasa','casa'],['csSis','sis']], {casa: "<svg viewBox=\"0 0 480 236\" width=\"480\" role=\"img\" aria-label=\"Plano de una casa con sala, cocina, cuarto y baño\"><defs><marker id=\"cam\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--tinta)\"/></marker><marker id=\"car\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--rojo)\"/></marker><marker id=\"cav\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--verde)\"/></marker><marker id=\"cap\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--plano)\"/></marker></defs><rect x=\"20\" y=\"20\" width=\"440\" height=\"200\" class=\"trazo\" style=\"stroke-width:3\"/><path class=\"trazo\" style=\"stroke-width:3\" d=\"M260,20 V48 M260,84 V150 M260,186 V220 M260,120 H460 M20,150 H58 M96,150 H120 V220\"/><path style=\"stroke:var(--plano);stroke-width:3;fill:none\" d=\"M260,48 L286,60 M260,150 L286,162 M58,150 L70,126\"/><text x=\"150\" y=\"92\" text-anchor=\"middle\" font-size=\"17\" font-weight=\"600\">Sala</text><text x=\"360\" y=\"76\" text-anchor=\"middle\" font-size=\"17\" font-weight=\"600\">Cocina</text><text x=\"360\" y=\"178\" text-anchor=\"middle\" font-size=\"17\" font-weight=\"600\">Cuarto</text><text x=\"70\" y=\"194\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\">Baño</text><circle cx=\"360\" cy=\"120\" r=\"12\" style=\"fill:var(--rojo-sv);stroke:var(--rojo);stroke-width:2\"/><text x=\"360\" y=\"125\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"700\" style=\"fill:var(--rojo)\">✕</text></svg><p style=\"margin:12px 0 0;text-align:center;font-size:15.5px\"><b>Cuartos</b> = componentes · <b>Puertas</b> = relaciones<br>Entre la cocina y el cuarto no hay puerta = <b>una regla</b></p>", sis: "<svg viewBox=\"0 0 480 262\" width=\"480\" role=\"img\" aria-label=\"Plano de un sistema con interfaz, lógica y datos\"><defs><marker id=\"sim\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--tinta)\"/></marker><marker id=\"sir\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--rojo)\"/></marker><marker id=\"siv\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--verde)\"/></marker><marker id=\"sip\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0,0 L10,5 L0,10 z\" style=\"fill:var(--plano)\"/></marker></defs><rect x=\"40\" y=\"24\" width=\"180\" height=\"50\" rx=\"8\" class=\"p-int\"/><text x=\"130.0\" y=\"54.2\" text-anchor=\"middle\" font-size=\"15\">Interfaz</text><rect x=\"40\" y=\"110\" width=\"180\" height=\"50\" rx=\"8\" class=\"p-log\"/><text x=\"130.0\" y=\"140.2\" text-anchor=\"middle\" font-size=\"15\">Lógica</text><g><path class=\"p-dat\" d=\"M70,197 a60.0,9 0 0,1 120,0 v44 a60.0,9 0 0,1 -120,0 z\"/><path class=\"p-dat\" style=\"fill:none\" d=\"M70,197 a60.0,9 0 0,0 120,0\"/></g><text x=\"130.0\" y=\"229.0\" text-anchor=\"middle\" font-size=\"15\">Datos</text><line x1=\"130\" y1=\"74\" x2=\"130\" y2=\"108\" style=\"stroke:var(--tinta);stroke-width:2.2\" marker-end=\"url(#sim)\"/><line x1=\"130\" y1=\"160\" x2=\"130\" y2=\"186\" style=\"stroke:var(--tinta);stroke-width:2.2\" marker-end=\"url(#sim)\"/><path d=\"M220,49 H300 V219 H194\" style=\"fill:none;stroke:var(--rojo);stroke-width:2.2;stroke-dasharray:7 5\" marker-end=\"url(#sir)\"/><circle cx=\"300\" cy=\"134\" r=\"12\" style=\"fill:var(--rojo-sv);stroke:var(--rojo);stroke-width:2\"/><text x=\"300\" y=\"139\" text-anchor=\"middle\" font-size=\"14\" font-weight=\"700\" style=\"fill:var(--rojo)\">✕</text><text x=\"322\" y=\"126\" text-anchor=\"start\" font-size=\"15\" font-weight=\"600\">Prohibido:</text><text x=\"322\" y=\"147\" text-anchor=\"start\" font-size=\"15\">la interfaz no</text><text x=\"322\" y=\"166\" text-anchor=\"start\" font-size=\"15\">toca los datos</text></svg><p style=\"margin:12px 0 0;text-align:center;font-size:15.5px\"><b>Piezas</b> = componentes · <b>Flechas</b> = relaciones<br>La flecha roja prohibida = <b>una regla</b></p>"});
+clasif('pz', ['Usuario','Interfaz','Lógica','Datos','Servidor'], [["La bibliotecaria que presta los libros", 0, "Es una persona que usa el sistema: va afuera del servidor, dibujada como monigote."], ["La pantalla donde se busca un libro por su título", 1, "Es lo que el usuario ve y toca: interfaz, en azul."], ["El módulo que calcula la multa por entregar tarde", 2, "Calcular es pensar: es lógica, en verde."], ["El lugar donde quedan guardados todos los préstamos", 3, "Guardar es tarea de los datos, en amarillo."], ["La compu de la biblioteca donde corre todo el sistema", 4, "Es dónde vive el sistema: la caja grande del servidor."], ["El formulario para sacar una cita en la veterinaria", 1, "Un formulario se ve y se llena: es interfaz."], ["La pieza que revisa si hay espacio en la agenda del día", 2, "Revisar y decidir es lógica. En los arquetipos sería el controlador."], ["El hosting en la nube que alquila la veterinaria", 4, "Un hosting es un servidor que se alquila: ahí vive el sistema."]]);
+(function(){
+  var B = {"doc": [222, 8, 36, 60], "int": [160, 112, 160, 46], "ctl": [40, 204, 170, 46], "cal": [270, 204, 170, 46], "rep": [40, 296, 170, 46], "bd": [295, 286, 120, 70]};
+  var N = {doc:'Docente', int:'Interfaz de notas', ctl:'Control de notas', cal:'Cálculo de promedios', rep:'Repositorio de notas', bd:'Base de datos'};
+  var casos = [["doc", "int", true, "El usuario solo toca la interfaz: el docente entra a la pantalla de notas."], ["int", "ctl", true, "La interfaz le pide a la lógica que registre la nota. Baja una capa."], ["ctl", "cal", true, "Las dos son de lógica, y las piezas de una misma capa sí pueden pedirse cosas."], ["ctl", "rep", true, "La lógica le pide al repositorio que guarde la nota. Baja una capa."], ["rep", "bd", true, "El repositorio es la pieza que habla con la base de datos."], ["int", "bd", false, "Se salta la lógica y el repositorio. La interfaz nunca toca los datos."], ["doc", "bd", false, "El usuario solo toca la interfaz. Nunca entra directo a la base de datos."], ["bd", "rep", false, "Esta flecha sube. La base de datos no le pide nada a nadie: solo responde."], ["cal", "int", false, "Esta flecha sube. La lógica no le pide cosas a la pantalla: le responde a quien le pidió."], ["int", "rep", false, "La interfaz se salta la lógica. Toda petición pasa primero por Control de notas."]], i = 0, ok = 0, hecho = false; casos = revolver(casos);
+  function borde(b, tx, ty, menos){ var cx = b[0] + b[2]/2, cy = b[1] + b[3]/2, dx = tx - cx, dy = ty - cy;
+    var s = Math.min(dx ? (b[2]/2) / Math.abs(dx) : 1e9, dy ? (b[3]/2) / Math.abs(dy) : 1e9);
+    var L = Math.sqrt(dx*dx + dy*dy) || 1, m = (menos || 0) / L; return [cx + dx*(s + m), cy + dy*(s + m)]; }
+  function marcar(c){ qa('[id^="flg_"]').forEach(function(g){ g.classList.toggle('on', g.id === 'flg_' + c[0] || g.id === 'flg_' + c[1]); }); }
+  function pintar(){ var c = casos[i], a = B[c[0]], b = B[c[1]], ca = [a[0]+a[2]/2, a[1]+a[3]/2], cb = [b[0]+b[2]/2, b[1]+b[3]/2];
+    var p = borde(a, cb[0], cb[1], 2), q = borde(b, ca[0], ca[1], 3), L = $('flL');
+    L.setAttribute('x1', p[0]); L.setAttribute('y1', p[1]); L.setAttribute('x2', q[0]); L.setAttribute('y2', q[1]);
+    L.style.stroke = 'var(--plano)'; L.style.strokeDasharray = ''; L.setAttribute('marker-end', 'url(#flp)'); marcar(c);
+    $('flQ').textContent = (i + 1) + ' de ' + casos.length + ': ' + N[c[0]] + ' → ' + N[c[1]] + '. ¿Se vale esta flecha?';
+    $('flFb').textContent = ''; hecho = false; $('flSi').disabled = false; $('flNo').disabled = false; $('flSig').disabled = true;
+    $('flSig').textContent = i === casos.length - 1 ? 'Volver a empezar' : 'Siguiente'; }
+  function responder(dijo){ if (hecho) return; hecho = true; var c = casos[i], L = $('flL');
+    L.style.stroke = c[2] ? 'var(--verde)' : 'var(--rojo)'; L.style.strokeDasharray = c[2] ? '' : '8 6'; L.setAttribute('marker-end', c[2] ? 'url(#flv)' : 'url(#flr)');
+    if (dijo === c[2]) { ok++; $('flFb').textContent = 'Correcto. ' + c[3]; } else { $('flFb').textContent = 'No. ' + c[3]; }
+    $('flCta').textContent = 'Aciertos: ' + ok + ' de ' + (i + 1); $('flSi').disabled = true; $('flNo').disabled = true; $('flSig').disabled = false; }
+  $('flSi').onclick = function(){ responder(true); }; $('flNo').onclick = function(){ responder(false); };
+  $('flSig').onclick = function(){ if (i === casos.length - 1){ i = 0; ok = 0; casos = revolver(casos); $('flCta').textContent = ''; } else i++; pintar(); };
+  pintar();
+})();
+(function(){
+  var Z = [[1, 1, 478, 24], [1, 25, 478, 28], [1, 53, 112, 265], [113, 53, 250, 265], [363, 53, 116, 265], [1, 318, 478, 27]], D = [["Barra de menús", "Archivo, Editar, Vista, Organizar, Extras y Ayuda. En <b>Archivo</b> están Nuevo, Guardar como y Exportar como; en <b>Vista</b> se vuelven a mostrar los paneles si desaparecen. Si arriba sale un aviso rojo de «Cambios no guardados», es un recordatorio de que todavía no guardaste."], ["Barra de herramientas", "El tamaño de la vista (100 %), las lupas para acercar y alejar, las flechas curvas para deshacer y rehacer, y el basurero para borrar lo seleccionado."], ["Panel de formas", "A la izquierda. Arriba tiene un buscador y abajo las secciones. En <b>General</b> están el rectángulo, el cilindro, el monigote y el contenedor. Más abajo está la sección <b>UML</b>, y con <b>+ Más formas</b> se agregan otras."], ["Lienzo", "La hoja con cuadrícula del centro: ahí se dibuja. Cuando dejás el mouse sobre una figura salen sus cuatro flechitas azules para conectarla."], ["Panel de formato", "A la derecha. Cambia según lo que tengás seleccionado. Con una figura seleccionada salen las pestañas <b>Estilo</b>, <b>Texto</b> y <b>Organizar</b>; en Estilo están los cuadritos de color, el relleno y la línea."], ["Páginas", "Abajo. Muestra la hoja en la que estás, Página-1. Con el <b>+</b> se agrega otra hoja dentro del mismo archivo, como en una hoja de cálculo."]], sel = $('dzSel');
+  var box = $('dzOps');
+  D.forEach(function(d, k){ var b = document.createElement('button'); b.className = 'chip'; b.innerHTML = '<span class="num">' + (k + 1) + '</span>' + d[0]; b.onclick = function(){ ver(k); }; box.appendChild(b); });
+  function ver(k){ var z = Z[k]; sel.setAttribute('x', z[0] + 1); sel.setAttribute('y', z[1] + 1); sel.setAttribute('width', z[2] - 2); sel.setAttribute('height', z[3] - 2);
+    qa('button', box).forEach(function(b, m){ b.className = m === k ? 'chip puesto' : 'chip'; });
+    $('dzInfo').innerHTML = '<span class="tit">' + (k + 1) + '. ' + D[k][0] + '</span><p>' + D[k][1] + '</p>'; }
+  qa('.zona').forEach(function(r){ r.addEventListener('click', function(){ ver(+r.getAttribute('data-z')); }); });
+  ver(0);
+})();
+empareja('mv', [["Escribir el nombre", "Doble clic sobre la figura"], ["Crear otra caja conectada", "Tocar una flechita azul"], ["Pintar", "Un cuadrito de color en Estilo"], ["Agrandar", "Jalar un puntito azul de la esquina"], ["Deshacer", "Ctrl + Z"], ["Borrar", "Seleccionar y tocar Supr"]]);
+(function(){
+  var P = [[0, "Abrí draw.io con el botón de abajo. Vas a ver una hoja en blanco con cuadrícula. En el dibujo de arriba se ve, clarito, cómo va a quedar al final."], [1, "<b>El servidor.</b> En el panel de formas, sección <b>General</b>, buscá el <b>contenedor</b>: una caja con una barra arriba (al dejarle el mouse encima dice <i>Container</i>). Arrastralo al lienzo y jalá la esquina de abajo a la derecha hasta que quede grande, como media pantalla. Doble clic en la barra, <kbd class=\"tecla\">Ctrl</kbd> + <kbd class=\"tecla\">A</kbd> y escribí <b>Servidor del colegio</b>."], [2, "<b>La interfaz.</b> Arrastrá el <b>rectángulo</b> (la primera figura de General) hasta <b>adentro</b> del servidor, arriba. Doble clic y escribí <b>Interfaz de notas</b>. Con la caja seleccionada, en la pestaña <b>Estilo</b> de la derecha tocá el cuadrito <b>azul</b>."], [3, "<b>El control.</b> Dejá el mouse sobre la interfaz hasta que salgan las cuatro flechitas azules. Tocá la de <b>abajo</b> y escogé la primera figura del menú. Sale otra caja ya conectada. Doble clic, <kbd class=\"tecla\">Ctrl</kbd> + <kbd class=\"tecla\">A</kbd>, escribí <b>Control de notas</b> y pintala de <b>verde</b>."], [4, "<b>El cálculo.</b> Sobre Control de notas, tocá la flechita de la <b>derecha</b> y escogé la primera figura. Cambiale el texto a <b>Cálculo de promedios</b>. Ya sale verde, porque copia el color."], [5, "<b>El repositorio.</b> Sobre Control de notas, tocá la flechita de <b>abajo</b>. Escribí <b>Repositorio de notas</b> y pintalo de <b>amarillo</b>."], [6, "<b>La base de datos.</b> Arrastrá el <b>cilindro</b> de General debajo del repositorio, adentro del servidor. Escribí <b>Base de datos</b> y pintalo de amarillo. Para conectarlos, dejá el mouse sobre el repositorio y <b>arrastrá</b> su flechita de abajo hasta el cilindro. Soltala cuando el cilindro se marque en azul."], [7, "<b>El docente.</b> Arrastrá el <b>monigote</b> de General (dice <i>Actor</i>) arriba, <b>afuera</b> del servidor. Doble clic y escribí <b>Docente</b>. Después arrastrá su flechita de abajo hasta la interfaz."], [8, "<b>El título.</b> Arrastrá la figura <b>Text</b> de General arriba de todo y escribí <b>Sistema de notas · estilo por capas</b>. Revisá: tienen que ser 5 flechas, y ninguna puede ir de la interfaz a la base de datos."], [9, "<b>Guardar.</b> <span class=\"ruta\">Archivo → Guardar como…</span> En <b>Guardar como</b> escribí <b>arquitectura-notas</b>. En <b>Tipo</b> escogé <b>Imagen Bitmap Editable (.png)</b> y en <b>Dónde</b> escogé <b>Descargar</b>. Tocá <b>Guardar</b>: queda en la carpeta Descargas como <b>arquitectura-notas.drawio.png</b>."]], i = 0;
+  function pintar(){ for (var k = 1; k <= 9; k++){ var g = $('psg' + k); g.style.opacity = k <= P[i][0] ? 1 : 0.13; }
+    $('psTxt').innerHTML = '<span class="n">' + i + '</span><div>' + P[i][1] + '</div>';
+    $('psCta').textContent = i === 0 ? 'Inicio' : 'Paso ' + i + ' de ' + (P.length - 1);
+    $('psAnt').disabled = i === 0; $('psSig').disabled = i === P.length - 1; }
+  $('psSig').onclick = function(){ if (i < P.length - 1){ i++; pintar(); } };
+  $('psAnt').onclick = function(){ if (i > 0){ i--; pintar(); } };
+  pintar();
+})();
+(function(){
+  var P = ["Subrayá las personas del requerimiento: son dos, y cada una usa su propia pantalla.", "El estudiante usa el celular para ver el menú y pedir; la encargada usa una pantalla en la cocina. Son dos interfaces distintas, y las dos van adentro del servidor.", "Fijate en los verbos: recibir el pedido y calcular el total, cambiar el menú y los precios, avisar que el pedido está listo. Cada grupo de tareas puede ser una pieza verde.", "El aviso al celular es el patrón <b>publicar y suscribirse</b>: la pieza de avisos publica «pedido listo» y la app del estudiante está suscrita. Y todo lo que se guarda pasa por un solo repositorio: ese es el patrón <b>repositorio</b>."], n = 0;
+  function pintar(){ var l = $('piLista'); l.innerHTML = ''; for (var k = 0; k < n; k++){ var li = document.createElement('li'); li.innerHTML = '<b>Pista ' + (k + 1) + '.</b> ' + P[k]; l.appendChild(li); }
+    $('piBtn').disabled = n === P.length; $('piBtn').textContent = n === P.length ? 'No hay más pistas' : 'Mostrar una pista';
+    $('piRe').disabled = n === 0; $('piCta').textContent = n ? n + ' de ' + P.length + ' pistas' : ''; }
+  $('piBtn').onclick = function(){ if (n < P.length){ n++; pintar(); } }; $('piRe').onclick = function(){ n = 0; pintar(); }; pintar();
+})();
+(function(){
+  $('rmCopiar').onclick = function(){ var t = $('rmTxt').textContent;
+    function marcar(){ try { var r = document.createRange(); r.selectNodeContents($('rmTxt')); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); } catch(e){} $('rmMsg').textContent = 'Quedó seleccionada: copiala con Ctrl + C.'; }
+    try { navigator.clipboard.writeText(t).then(function(){ $('rmMsg').textContent = 'Copiada. Pegala en el README con Ctrl + V.'; }, marcar); } catch(e){ marcar(); } };
+})();
+(function(){
+  var P = ["Guardar los diagramas como .drawio.png", "Crear el repositorio con README", "Subir las imágenes con Upload files", "Pegar la plantilla en el README", "Revisar y entregar el enlace"], puestos = [];
+  function pintar(){ var ops = $('orOps'), fila = $('orFila'); ops.innerHTML = ''; fila.innerHTML = '';
+    if (!puestos.length) fila.innerHTML = '<span class="vacio">Aquí se van acomodando los pasos.</span>';
+    puestos.forEach(function(k, pos){ var s = document.createElement('span'); s.className = 'chip puesto'; s.innerHTML = '<span class="num">' + (pos + 1) + '</span>' + P[k];
+      if (puestos.length === P.length) s.className = 'chip ' + (k === pos ? 'bien' : 'mal'); fila.appendChild(s); });
+    P.forEach(function(t, k){ if (puestos.indexOf(k) >= 0) return; var b = document.createElement('button'); b.className = 'chip'; b.textContent = t; b.dataset.k = k;
+      b.onclick = function(){ puestos.push(k); pintar(); }; ops.appendChild(b); });
+    if (puestos.length === P.length){ var bien = puestos.filter(function(k, pos){ return k === pos; }).length;
+      $('orMsg').textContent = bien === P.length ? '¡Orden correcto!' : bien + ' de ' + P.length + ' en su lugar. El orden es: ' + P.map(function(t, k){ return (k + 1) + ') ' + t; }).join(' · '); }
+    else $('orMsg').textContent = puestos.length ? 'Vas ' + puestos.length + ' de ' + P.length + '.' : '';
+    var ordenVisible = revolver(qa('button', ops)); ordenVisible.forEach(function(b){ ops.appendChild(b); }); }
+  $('orRe').onclick = function(){ puestos = []; pintar(); }; pintar();
+})();
+(function(){
+  var CLAVE = 'guia-arquitectura-drawio-lista', cajas = qa('#ckLista input');
+  function leer(){ try { return JSON.parse(localStorage.getItem(CLAVE) || '{}') || {}; } catch(e){ return {}; } }
+  function guardar(){ var o = {}; cajas.forEach(function(c){ if (c.checked) o[c.id] = 1; }); try { localStorage.setItem(CLAVE, JSON.stringify(o)); } catch(e){} }
+  function pintar(){ var n = 0; cajas.forEach(function(c){ c.parentNode.classList.toggle('hecho', c.checked); if (c.checked) n++; });
+    $('ckBar').style.width = (n / cajas.length * 100) + '%'; $('ckCta').textContent = n === cajas.length ? '¡Todo listo para entregar!' : 'Van ' + n + ' de ' + cajas.length + '.'; }
+  var s = leer(); cajas.forEach(function(c){ c.checked = !!s[c.id]; c.addEventListener('change', function(){ guardar(); pintar(); }); });
+  $('ckRe').onclick = function(){ cajas.forEach(function(c){ c.checked = false; }); guardar(); pintar(); }; pintar();
+})();
+})();
+</script>
+</body>
+</html>
