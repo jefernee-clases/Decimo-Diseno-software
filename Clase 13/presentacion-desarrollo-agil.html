@@ -1,0 +1,472 @@
+<title>Desarrollo ágil de software</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Plantilla Planeamiento MEP: diapositivas en blanco, cada una completa al aparecer; el docente solo avanza. */
+:root {
+  --paper: #ffffff;
+  --ink: #1a1c23;
+  --muted: #55575f;
+  --line: #dddfe7;
+  --tint: #eff0f4;
+  --accent: #1e2761;
+  --accent-ink: #161c47;
+  --bad: #c0392b;
+  --bad-tint: #fbeceb;
+  --warn: #a96b12;
+  --warn-tint: #fdf4e3;
+  --ok: #1e8449;
+  --ok-tint: #e8f5ec;
+  --display: "Bricolage Grotesque", "Segoe UI", Arial, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", Arial, sans-serif;
+  --mono: "JetBrains Mono", Consolas, "Courier New", monospace;
+  color-scheme: light;
+}
+html, body { height: 100%; }
+body { background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; overflow: hidden; }
+* { box-sizing: border-box; }
+
+.deck { position: relative; height: 100%; }
+.s { position: absolute; inset: 0 0 60px 0; overflow-y: auto; display: none;
+  padding-block: clamp(18px, 4.5vh, 52px);
+  padding-left: max(clamp(16px, 3.5vw, 64px), env(safe-area-inset-left, 0px)); padding-right: max(clamp(16px, 3.5vw, 64px), env(safe-area-inset-right, 0px)); }
+.s.on { display: block; animation: entra .3s ease; }
+@keyframes entra { from { opacity: .4; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .s.on { animation: none; } }
+.in { max-width: 1560px; margin: 0 auto; min-height: 100%; display: flex; flex-direction: column; justify-content: center; gap: clamp(12px, 2.2vh, 24px); }
+
+.eti { font-family: var(--mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0; }
+h1, h2 { font-family: var(--display); font-weight: 800; letter-spacing: -.02em; margin: 0; text-wrap: balance; line-height: 1.04; }
+h1 { font-size: clamp(44px, 7.4vw, 104px); }
+h2 { font-size: clamp(28px, 3.9vw, 52px); }
+h3 { font-family: var(--display); font-weight: 600; font-size: clamp(19px, 1.7vw, 24px); margin: 0; line-height: 1.15; }
+p, li { font-size: clamp(16px, 1.45vw, 21px); line-height: 1.42; margin: 0; }
+.lead { font-size: clamp(18px, 1.8vw, 28px); color: var(--muted); max-width: 70ch; }
+.chico { font-size: clamp(14px, 1.15vw, 17px); color: var(--muted); }
+.ac { color: var(--accent); }
+ul.l { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.col2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(16px, 3vw, 40px); align-items: center; }
+@media (max-width: 900px) { .grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .grid2, .grid3, .col2 { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .grid4 { grid-template-columns: 1fr; } }
+
+.card { background: var(--tint); border-radius: 14px; padding: clamp(12px, 1.4vw, 18px); display: grid; gap: 6px; align-content: start; }
+.card p, .card li { font-size: clamp(15px, 1.2vw, 18px); }
+.card .n { font: 500 12px var(--mono); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; }
+.card.linea { background: var(--paper); border: 2px solid var(--line); }
+.ej { font-size: clamp(14px, 1.1vw, 16px) !important; color: var(--muted); }
+.ej b { color: var(--accent-ink); }
+.falla { font-size: clamp(14px, 1.1vw, 16px) !important; color: var(--bad); }
+
+/* Portada */
+.portada .in { justify-content: flex-end; padding-bottom: 4vh; }
+.sello { display: inline-flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 14px; color: var(--ok); border: 2px solid var(--ok); border-radius: 6px; padding: 6px 12px; transform: rotate(-3deg); align-self: flex-start; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 22px; font-family: var(--mono); font-size: 14px; color: var(--muted); }
+
+/* Definición */
+.def { border-left: 6px solid var(--accent); padding: 4px 0 4px 22px; }
+.def p { font-size: clamp(22px, 2.4vw, 34px); line-height: 1.28; font-family: var(--display); font-weight: 600; max-width: 32ch; }
+.ojo { background: var(--warn-tint); border-radius: 12px; padding: 12px 16px; }
+.ojo b { color: var(--warn); }
+
+/* Factores ISO */
+.factor { border: 2px solid var(--line); border-radius: 14px; padding: 14px; display: grid; gap: 6px; align-content: start; }
+.factor h3 { color: var(--accent-ink); }
+.factor dl { margin: 0; display: grid; gap: 4px; }
+.factor dt { font: 500 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-top: 4px; }
+.factor dd { margin: 0; font-size: clamp(14px, 1.15vw, 17px); line-height: 1.35; }
+.factor dd.f { color: var(--bad); }
+
+/* Costos */
+.costo { border-radius: 14px; padding: 14px; display: grid; gap: 6px; align-content: start; }
+.costo.pre { background: var(--ok-tint); } .costo.eva { background: var(--tint); } .costo.int { background: var(--warn-tint); } .costo.ext { background: var(--bad-tint); }
+.costo p, .costo li { font-size: clamp(14px, 1.15vw, 17px); }
+.costo ul { margin: 0; padding-left: 18px; display: grid; gap: 2px; }
+.llave { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.llave div { border-top: 4px solid var(--ok); padding-top: 6px; font-size: clamp(14px, 1.2vw, 18px); }
+.llave div + div { border-color: var(--bad); }
+@media (max-width: 760px) { .llave { grid-template-columns: 1fr; } }
+
+/* Gráfico costo por etapa */
+.graf { display: grid; gap: 10px; }
+.fila-g { display: grid; grid-template-columns: 140px minmax(0, 1fr) 64px; gap: 12px; align-items: center; }
+.fila-g span { font-size: clamp(14px, 1.2vw, 18px); }
+.fila-g .pista { background: var(--tint); border-radius: 6px; height: 28px; overflow: hidden; }
+.fila-g .llen { height: 100%; border-radius: 6px; background: var(--accent); }
+.fila-g:last-child .llen { background: var(--bad); }
+.fila-g .num { font: 500 15px var(--mono); text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 520px) { .fila-g { grid-template-columns: 96px minmax(0, 1fr) 50px; } }
+
+/* Matriz de riesgos */
+.mtz { display: grid; grid-template-columns: 22px minmax(0, 1fr); grid-template-rows: auto 22px; gap: 5px; max-width: 420px; width: 100%; }
+.ey { writing-mode: vertical-rl; transform: rotate(180deg); font: 500 11px var(--mono); color: var(--muted); text-align: center; }
+.ex { grid-column: 2; font: 500 11px var(--mono); color: var(--muted); text-align: center; }
+.cel { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 66px); gap: 4px; }
+.cel div { border-radius: 8px; display: grid; place-items: center; text-align: center; padding: 4px; font: 700 13px var(--body); }
+.cel .b { background: var(--ok-tint); color: var(--ok); } .cel .m { background: var(--warn-tint); color: var(--warn); } .cel .a { background: var(--bad-tint); color: var(--bad); }
+
+/* Aseguramiento */
+.ciclo { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 900px) { .ciclo { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .ciclo { grid-template-columns: 1fr; } }
+.ciclo div { background: var(--tint); border-radius: 12px; padding: 12px; display: grid; gap: 4px; align-content: start; }
+.ciclo .n { font: 500 12px var(--mono); color: var(--accent); }
+.ciclo p { font-size: clamp(14px, 1.1vw, 16px); }
+.mtc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 760px) { .mtc { grid-template-columns: 1fr; } }
+.mtc > div { border-top: 4px solid var(--accent); padding-top: 8px; display: grid; gap: 4px; }
+.mtc p { font-size: clamp(14px, 1.15vw, 17px); }
+
+/* Reporte */
+.reporte { border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; }
+.reporte .cab { background: var(--ink); color: var(--paper); padding: 9px 16px; font: 500 13px var(--mono); display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.reporte dl { margin: 0; display: grid; grid-template-columns: 120px minmax(0, 1fr); }
+.reporte dt, .reporte dd { padding: 8px 14px; border-top: 1px solid var(--line); margin: 0; font-size: clamp(14px, 1.15vw, 17px); }
+.reporte dt { font: 500 12px var(--mono); color: var(--accent); text-transform: uppercase; letter-spacing: .05em; padding-top: 11px; }
+@media (max-width: 520px) { .reporte dl { grid-template-columns: 1fr; } .reporte dd { border-top: 0; padding-top: 0; } }
+.grav { display: grid; gap: 8px; }
+.grav div { border-radius: 10px; padding: 9px 14px; font-size: clamp(15px, 1.2vw, 18px); }
+.grav .a { background: var(--bad-tint); } .grav .m { background: var(--warn-tint); } .grav .b { background: var(--ok-tint); }
+
+/* Prácticas */
+.prac { border: 2px solid var(--accent); border-radius: 16px; padding: 16px; display: grid; gap: 8px; align-content: start; text-decoration: none; color: var(--ink); background: var(--paper); }
+.prac:hover { background: var(--tint); }
+.prac .n { font: 500 12px var(--mono); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; }
+.prac p { font-size: clamp(14px, 1.15vw, 17px); }
+.prac .ir { font: 700 15px var(--body); color: var(--accent-ink); }
+
+.res { counter-reset: r; list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 28px; }
+@media (max-width: 760px) { .res { grid-template-columns: 1fr; } }
+.res li { counter-increment: r; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; align-items: start; }
+.res li::before { content: counter(r); font: 800 18px var(--display); width: 32px; height: 32px; border-radius: 50%; background: var(--tint); color: var(--accent-ink); display: grid; place-items: center; }
+
+kbd { font: 500 .9em var(--mono); border: 1px solid var(--line); border-bottom-width: 3px; border-radius: 6px; padding: 1px 7px; background: var(--paper); }
+
+/* Barra inferior */
+.ctrl { position: fixed; left: 0; right: 0; bottom: 0; height: calc(60px + env(safe-area-inset-bottom, 0px)); padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex; align-items: center; gap: 10px; background: var(--paper); border-top: 1px solid var(--line); }
+.ctrl .prog { position: absolute; left: 0; top: -1px; height: 3px; background: var(--accent); transition: width .3s; }
+.ctrl button { font: 700 15px var(--body); border: 2px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+.ctrl .nav { border-color: var(--accent); color: var(--accent-ink); min-width: 46px; }
+.ctrl .num { font: 500 14px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.ctrl .esp { flex: 1; }
+.ctrl .tit { font: 500 13px var(--mono); color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--warn); outline-offset: 2px; }
+@media (max-width: 600px) { .ctrl .tit, #fsBtn { display: none; } }
+</style>
+
+<div class="deck" id="deck">
+
+<style>
+/* Solo el azul del tema, blanco y gris */
+.sello { color: var(--accent) !important; border-color: var(--accent) !important; }
+.ojo { background: var(--tint) !important; } .ojo b { color: var(--accent-ink) !important; }
+.factor dd.f, .falla { color: var(--accent-ink) !important; }
+.vs { font: 500 12px var(--mono); color: var(--muted); text-align: center; letter-spacing: .08em; }
+.val { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 10px; align-items: center; }
+.val .card p { font-size: clamp(16px, 1.3vw, 20px); }
+.cifra { font: 800 clamp(30px, 3.2vw, 46px) var(--display); color: var(--accent); line-height: 1; }
+.linea-t { display: grid; gap: 6px; }
+.linea-t .barra { display: grid; gap: 4px; }
+.linea-t .seg { border-radius: 8px; padding: 8px 6px; text-align: center; font-size: clamp(13px, 1vw, 15px); }
+.seg.f { background: var(--tint); }
+.seg.v { background: var(--paper); border: 2px solid var(--accent); }
+@media (max-width: 760px) { .val { grid-template-columns: 1fr; } .linea-t .barra { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+</style>
+<!-- 1 -->
+<section class="s portada" data-t="Portada">
+  <div class="in">
+    <span class="sello">UNIDAD 2 · DESARROLLO ÁGIL</span>
+    <h1>Desarrollo ágil<br>de software</h1>
+    <p class="lead">Cómo trabajan los equipos que responden rápido al cambio, sin tener que empezar de cero.</p>
+    <div class="meta"><span>Clase 13</span><span>Décimo · Diseño de software</span><span>Unidad: Desarrollo ágil de software</span><span>Creado por Jefernee.</span></div>
+    <p class="chico">Avanzá con <kbd>→</kbd>, la barra espaciadora o los botones de abajo. En el celular, deslizá.</p>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="s" data-t="El caso">
+  <div class="in">
+    <p class="eti">El ejemplo de toda la clase</p>
+    <h2>SodaYa: la app de la soda del colegio</h2>
+    <p class="lead">El estudiante ve el menú en el celular y pide; la cocina recibe el pedido y avisa cuando está listo.</p>
+    <div class="col2" style="align-items:start">
+      <div class="card linea"><span class="n">Lo que debe hacer</span>
+        <ul class="l">
+          <li>Mostrar el menú del día con sus precios.</li>
+          <li>Recibir el pedido y calcular el total.</li>
+          <li>Avisar al estudiante cuando el pedido está listo.</li>
+          <li>Guardar los pedidos y las ventas.</li>
+        </ul>
+      </div>
+      <div class="card"><span class="n">Lo que pide la dueña a mitad del proyecto</span>
+        <ul class="l">
+          <li><b>Semana 6:</b> agregar empanadas al menú.</li>
+          <li><b>Semana 10:</b> poder pedir para llevar.</li>
+          <li><b>Semana 12:</b> pagar con SINPE Móvil.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="ojo"><b>La pregunta de hoy:</b> ¿cómo trabaja un equipo para que estos cambios no lo obliguen a empezar de cero?</p>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="s" data-t="¿Qué es la agilidad?">
+  <div class="in">
+    <p class="eti">Agilidad</p>
+    <h2>¿Qué es la agilidad?</h2>
+    <div class="def"><p>Es la capacidad de un equipo de <span class="ac">responder bien y rápido al cambio</span>: entrega seguido software que funciona, habla todo el tiempo con el cliente y ajusta el plan cuando hace falta.</p></div>
+    <div class="grid3">
+      <div class="card"><h3>Responde al cambio</h3><p>Los cambios son parte normal del trabajo.</p></div>
+      <div class="card"><h3>Se comunica</h3><p>Programadores, cliente y jefes hablan entre todos.</p></div>
+      <div class="card"><h3>Cliente en el equipo</h3><p>El cliente opina todo el tiempo, no solo al inicio.</p></div>
+      <div class="card"><h3>Se organiza solo</h3><p>El equipo decide cómo repartir el trabajo.</p></div>
+      <div class="card"><h3>Entrega seguido</h3><p>Cada pocas semanas hay algo que ya funciona.</p></div>
+      <div class="card"><h3>Planes flexibles</h3><p>El plan es una guía que se ajusta.</p></div>
+    </div>
+    <p class="ojo"><b>No confundir:</b> ágil no es rápido y desordenado. Se planea, se prueba y se documenta, pero en pedazos pequeños.</p>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="s" data-t="Costo del cambio">
+  <div class="in">
+    <p class="eti">La agilidad y el costo del cambio</p>
+    <h2>Mientras más avanzado el proyecto, más caro cambiar</h2>
+    <div class="grid2">
+      <div class="card linea"><span class="n">Proceso tradicional</span><h3>El costo sube cada semana</h3><p>Un cambio tardío obliga a rehacer diseño, código y pruebas.</p></div>
+      <div class="card linea"><span class="n">Proceso ágil</span><h3>El costo casi no sube</h3><p>Se entrega en pedazos y se prueba siempre: el cambio solo toca el pedazo actual.</p></div>
+    </div>
+    <p class="lead">Agregar <b>SINPE Móvil</b> a SodaYa en la semana 12:</p>
+    <div class="grid2">
+      <div class="card"><span class="cifra">≈ 44 h</span><p>de trabajo en un proceso tradicional.</p></div>
+      <div class="card"><span class="cifra">≈ 12 h</span><p>de trabajo en un proceso ágil.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="s" data-t="Proceso ágil">
+  <div class="in">
+    <p class="eti">Proceso ágil</p>
+    <h2>Un proceso que se adapta</h2>
+    <p class="lead">Todo proceso ágil parte de tres suposiciones:</p>
+    <div class="grid3">
+      <div class="card"><h3>Los requisitos van a cambiar</h3><p>Es difícil saber desde el inicio qué será lo más importante para el cliente.</p></div>
+      <div class="card"><h3>Se diseña y se construye a la vez</h3><p>Se diseña un poco, se programa, se prueba y se vuelve a diseñar.</p></div>
+      <div class="card"><h3>Nada es tan predecible</h3><p>El trabajo casi nunca sale como se planeó.</p></div>
+    </div>
+    <p>Por eso se avanza en <b>incrementos</b>: pedazos pequeños de software que ya funcionan. Cada vuelta dura unas 2 semanas:</p>
+    <div class="ciclo">
+      <div><span class="n">1</span><h3>Planear</h3></div>
+      <div><span class="n">2</span><h3>Construir</h3></div>
+      <div><span class="n">3</span><h3>Probar</h3></div>
+      <div><span class="n">4</span><h3>Mostrar</h3><p>La dueña prueba la entrega.</p></div>
+      <div><span class="n">5</span><h3>Ajustar</h3><p>Se cambia lo que pidió.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="s" data-t="En el tiempo">
+  <div class="in">
+    <p class="eti">Tradicional contra ágil</p>
+    <h2>El mismo SodaYa de 16 semanas, de dos formas</h2>
+    <div class="linea-t">
+      <span class="n" style="font:500 12px var(--mono);color:var(--accent)">PROCESO TRADICIONAL (EN CASCADA) · LA DUEÑA VE EL SISTEMA 1 VEZ</span>
+      <div class="barra" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+        <div class="seg f">Requisitos</div><div class="seg f">Diseño</div><div class="seg f">Programación</div><div class="seg v">Pruebas y entrega</div>
+      </div>
+    </div>
+    <div class="linea-t">
+      <span class="n" style="font:500 12px var(--mono);color:var(--accent)">PROCESO ÁGIL · LA DUEÑA VE EL SISTEMA 8 VECES</span>
+      <div class="barra" style="grid-template-columns:repeat(8,minmax(0,1fr))">
+        <div class="seg f">Menú</div><div class="seg f">Pedido</div><div class="seg f">Total</div><div class="seg f">Cocina</div><div class="seg f">Avisos</div><div class="seg v">Empanadas</div><div class="seg v">Para llevar</div><div class="seg v">SINPE</div>
+      </div>
+    </div>
+    <p class="chico">Con borde: los momentos en que la dueña recibe algo nuevo. En ágil, los últimos tres son los cambios que pidió a mitad del proyecto.</p>
+    <p class="ojo"><b>La diferencia:</b> en cascada los cambios llegan cuando ya hay mucho hecho y obligan a rehacer. En ágil cada cambio entra como una entrega más.</p>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="s" data-t="Manifiesto Ágil">
+  <div class="in">
+    <p class="eti">El Manifiesto Ágil · 2001</p>
+    <h2>Cuatro valores</h2>
+    <p class="lead">En 2001, 17 programadores se reunieron en Utah (Estados Unidos) y escribieron el Manifiesto por el Desarrollo Ágil de Software.</p>
+    <div style="display:grid;gap:10px">
+      <div class="val"><div class="card"><p><b>Las personas</b> y cómo se comunican</p></div><span class="vs">SOBRE</span><div class="card linea"><p>los procesos y las herramientas</p></div></div>
+      <div class="val"><div class="card"><p><b>Software que funciona</b></p></div><span class="vs">SOBRE</span><div class="card linea"><p>documentación larguísima</p></div></div>
+      <div class="val"><div class="card"><p><b>Trabajar junto al cliente</b></p></div><span class="vs">SOBRE</span><div class="card linea"><p>negociar un contrato</p></div></div>
+      <div class="val"><div class="card"><p><b>Responder al cambio</b></p></div><span class="vs">SOBRE</span><div class="card linea"><p>seguir un plan al pie de la letra</p></div></div>
+    </div>
+    <p class="chico">Cómo se lee: lo de la derecha también vale, pero cuando hay que escoger pesa más lo de la izquierda.</p>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="s" data-t="12 principios">
+  <div class="in">
+    <p class="eti">Los doce principios de la agilidad</p>
+    <h2>Cómo se cumplen los cuatro valores</h2>
+    <div class="grid4">
+      <div class="card"><span class="n">1</span><h3>Cliente contento</h3><p>Entregarle pronto lo que le sirve.</p></div>
+      <div class="card"><span class="n">2</span><h3>Bienvenido el cambio</h3><p>Aunque llegue tarde.</p></div>
+      <div class="card"><span class="n">3</span><h3>Entregas frecuentes</h3><p>Cada pocas semanas.</p></div>
+      <div class="card"><span class="n">4</span><h3>Juntos todos los días</h3><p>Cliente y programadores.</p></div>
+      <div class="card"><span class="n">5</span><h3>Personas motivadas</h3><p>Con apoyo y confianza.</p></div>
+      <div class="card"><span class="n">6</span><h3>Cara a cara</h3><p>La mejor comunicación.</p></div>
+      <div class="card"><span class="n">7</span><h3>Software que funciona</h3><p>Así se mide el avance.</p></div>
+      <div class="card"><span class="n">8</span><h3>Ritmo sostenible</h3><p>Sin agotar al equipo.</p></div>
+      <div class="card"><span class="n">9</span><h3>Buena técnica</h3><p>Calidad y buen diseño.</p></div>
+      <div class="card"><span class="n">10</span><h3>Simplicidad</h3><p>Hacer solo lo necesario.</p></div>
+      <div class="card"><span class="n">11</span><h3>Equipos que se organizan</h3><p>Dan los mejores diseños.</p></div>
+      <div class="card"><span class="n">12</span><h3>Reflexionar y ajustar</h3><p>Revisar cómo se trabaja.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="s" data-t="Principios en SodaYa">
+  <div class="in">
+    <p class="eti">Los principios en el caso</p>
+    <h2>Así se ven en SodaYa</h2>
+    <div class="grid3">
+      <div class="card linea"><span class="n">Entregas frecuentes</span><p>Cada 2 semanas la dueña prueba una versión nueva en su celular.</p></div>
+      <div class="card linea"><span class="n">Bienvenido el cambio</span><p>SINPE Móvil entra aunque el proyecto vaya por la semana 12.</p></div>
+      <div class="card linea"><span class="n">Cara a cara</span><p>Las dudas del menú se resuelven hablando en la soda, no con correos largos.</p></div>
+      <div class="card linea"><span class="n">Simplicidad</span><p>Primero solo el pedido; los cupones de descuento quedan para después.</p></div>
+      <div class="card linea"><span class="n">Ritmo sostenible</span><p>El equipo planea solo lo que puede hacer en 2 semanas.</p></div>
+      <div class="card linea"><span class="n">Reflexionar y ajustar</span><p>Al final de cada entrega el equipo conversa qué mejorar.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="s" data-t="Política ágil">
+  <div class="in">
+    <p class="eti">La política del desarrollo ágil</p>
+    <h2>Dos bandos y una salida sensata</h2>
+    <div class="grid2">
+      <div class="card linea"><span class="n">Los que prefieren lo ágil dicen</span><p>«Lo tradicional tarda tanto que, cuando entrega, el cliente ya necesita otra cosa.»</p></div>
+      <div class="card linea"><span class="n">Los que prefieren lo tradicional dicen</span><p>«Lo ágil documenta muy poco y sus sistemas cuestan mantenerlos cuando cambia el equipo.»</p></div>
+    </div>
+    <div class="def"><p><span class="ac">Lo mejor de los dos:</span> se toma la planeación y la calidad de lo tradicional, y la rapidez y la cercanía con el cliente de lo ágil. Ningún proceso sirve para todos los proyectos.</p></div>
+    <p class="ej"><b>En SodaYa:</b> entregas cortas como en lo ágil, pero con diagrama de arquitectura y pruebas, como en la Clase 12.</p>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="s" data-t="Cómo escoger">
+  <div class="in">
+    <p class="eti">¿Cómo escoger el proceso?</p>
+    <h2>Cuatro preguntas antes de empezar</h2>
+    <div class="grid4">
+      <div class="card"><h3>¿El cliente está cerca?</h3><p>Si puede opinar seguido, conviene lo ágil.</p></div>
+      <div class="card"><h3>¿Cuánto cambiarán los requisitos?</h3><p>Mientras más cambien, más conviene lo ágil.</p></div>
+      <div class="card"><h3>¿Qué tan grave es un error?</h3><p>Si cuesta vidas o mucho dinero, hace falta más plan.</p></div>
+      <div class="card"><h3>¿Qué tan grande es el equipo?</h3><p>Los muy grandes necesitan más estructura.</p></div>
+    </div>
+    <div class="grid4">
+      <div class="factor"><h3>SodaYa</h3><dl><dd class="f">Ágil</dd><dd>La dueña está cerca y cambia el menú seguido.</dd></dl></div>
+      <div class="factor"><h3>Videojuego de la feria científica</h3><dl><dd class="f">Ágil</dd><dd>Hay que probar qué gusta y ajustar rápido.</dd></dl></div>
+      <div class="factor"><h3>Programa de un marcapasos</h3><dl><dd class="f">Tradicional</dd><dd>Un error puede costar una vida.</dd></dl></div>
+      <div class="factor"><h3>App de un banco</h3><dl><dd class="f">Una mezcla</dd><dd>Leyes que cumplir y funciones nuevas cada mes.</dd></dl></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="s" data-t="Resumen y prácticas">
+  <div class="in">
+    <p class="eti">Para repasar y practicar</p>
+    <h2>Lo más importante</h2>
+    <ol class="res">
+      <li><p><b>Agilidad:</b> responder bien y rápido al cambio.</p></li>
+      <li><p>Un proceso ágil mantiene bajo el <b>costo del cambio</b>.</p></li>
+      <li><p>Se avanza en <b>incrementos</b> y se escucha al cliente en cada uno.</p></li>
+      <li><p>El <b>Manifiesto Ágil</b> tiene 4 valores y 12 principios.</p></li>
+      <li><p>No hay que escoger bando: se toma <b>lo mejor de los dos</b>.</p></li>
+    </ol>
+    <div class="grid3">
+      <a class="prac" id="p1" href="Practica1_Conceptos_Agilidad_Decimo.html" target="_blank" rel="noopener"><span class="n">Práctica 1</span><h3>Lo que hace ágil a un equipo</h3><span class="ir">Abrir la práctica →</span></a>
+      <a class="prac" id="p2" href="Practica2_Analisis_de_Casos_Agilidad_Decimo.html" target="_blank" rel="noopener"><span class="n">Práctica 2</span><h3>¿Ágil, tradicional o una mezcla?</h3><span class="ir">Abrir la práctica →</span></a>
+      <a class="prac" id="p3" href="Practica3_Resolucion_de_Problemas_Agilidad_Decimo.html" target="_blank" rel="noopener"><span class="n">Práctica 3</span><h3>Planear SodaYa en entregas</h3><span class="ir">Abrir la práctica →</span></a>
+    </div>
+    <p class="chico">Cada práctica se hace en la compu y al final se guarda como PDF para entregarla. Creado por Jefernee.</p>
+  </div>
+</section>
+
+</div>
+
+<nav class="ctrl" aria-label="Controles de la presentación">
+  <i class="prog" id="prog"></i>
+  <button class="nav" id="ant" type="button" aria-label="Anterior">←</button>
+  <button class="nav" id="sig" type="button" aria-label="Siguiente">→</button>
+  <span class="num" id="num">1 / 12</span>
+  <span class="tit" id="tit"></span>
+  <span class="esp"></span>
+  <button id="fsBtn" type="button">Pantalla completa</button>
+  <button id="dlBtn" type="button">Descargar</button>
+</nav>
+
+<script>
+var PRES_HTML = "<!DOCTYPE html>" + String.fromCharCode(10) + document.documentElement.outerHTML;
+(function () {
+  function $(id) { return document.getElementById(id); }
+  var S = Array.prototype.slice.call(document.querySelectorAll('.s')), cur = 0;
+
+  function mostrar(i) {
+    i = Math.max(0, Math.min(S.length - 1, i));
+    S.forEach(function (s, k) { s.classList.toggle('on', k === i); });
+    cur = i; S[i].scrollTop = 0;
+    $('num').textContent = (i + 1) + ' / ' + S.length;
+    $('tit').textContent = S[i].getAttribute('data-t') || '';
+    $('prog').style.width = ((i + 1) / S.length * 100) + '%';
+    $('ant').disabled = i === 0; $('sig').disabled = i === S.length - 1;
+    try { history.replaceState(null, '', '#d' + (i + 1)); } catch (e) {}
+  }
+  $('sig').onclick = function () { mostrar(cur + 1); };
+  $('ant').onclick = function () { mostrar(cur - 1); };
+  document.addEventListener('keydown', function (e) {
+    var t = e.target.tagName; if (t === 'INPUT' || t === 'TEXTAREA') return;
+    if (['ArrowRight', 'PageDown', ' '].indexOf(e.key) >= 0) { e.preventDefault(); mostrar(cur + 1); }
+    else if (['ArrowLeft', 'PageUp'].indexOf(e.key) >= 0) { e.preventDefault(); mostrar(cur - 1); }
+    else if (e.key === 'Home') mostrar(0);
+    else if (e.key === 'End') mostrar(S.length - 1);
+  });
+  var x0 = null, y0 = null;
+  $('deck').addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, {passive: true});
+  $('deck').addEventListener('touchend', function (e) {
+    if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) mostrar(cur + (dx < 0 ? 1 : -1));
+  }, {passive: true});
+
+  /* Enlaces publicados de las prácticas; sin internet se usan los archivos de la carpeta. */
+  var LINKS = {};
+  if (location.protocol !== 'file:') Object.keys(LINKS).forEach(function (k) { var el = $(k); if (el) el.href = LINKS[k]; });
+
+  $('fsBtn').onclick = function () {
+    try { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(function () {}); } catch (e) {}
+  };
+  $('dlBtn').onclick = async function () {
+    var nombre = 'presentacion-desarrollo-agil.html', d = null;
+    try { if (window.claude && window.claude.use) d = await window.claude.use('downloads'); } catch (e) { d = null; }
+    if (d) { try { await d.save({filename: nombre, data: PRES_HTML}); } catch (e) {} return; }
+    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([PRES_HTML], {type: 'text/html'})); a.download = nombre;
+    document.body.appendChild(a); a.click(); a.remove();
+  };
+
+  var m = /^#d(\d+)$/.exec(location.hash);
+  mostrar(m ? +m[1] - 1 : 0);
+})();
+</script>
